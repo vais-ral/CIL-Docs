@@ -18,7 +18,7 @@ of an image:
 - Image Coordinate: the actual pixel number in each dimension
 - World Coordinate: the location in the *real world*
   
-World coordinates are generally linear transformation of the image coordinate. For example, the size of the pixel 
+World coordinates are linear transformation of the image coordinate. For example, the size of the pixel 
 may not be uniform in the 3 dimensions resulting in a stretched image in some direction. 
 
 The algorithm itself has no clue about the World coordinate and its output is in image coordinate. The user is required to apply
@@ -69,7 +69,7 @@ The algorithm is wrapped in a Object oriented fashion, and therefore it needs to
     # 1. create a segmentor object
     segmentor = SimpleflexSegmentor()
 
-    # 2. Pass data into the algorithm
+    # 2. Load some data and pass data into the algorithm
     # load data with vtk
     reader = vtk.vtkVolume16Reader()
     reader.SetDataDimensions (64,64)
@@ -172,6 +172,14 @@ It is basically it! You can run the following script that will do the segmentati
 
   from CILViewer import CILViewer
 
+  def readAs3DNumpyArray(vtkReader):
+      # transform the VTK data to 3D numpy array
+      img_data = numpy_support.vtk_to_numpy(
+          vtkReader.GetOutput().GetPointData().GetScalars())
+
+      data3d = numpy.reshape(img_data, vtkReader.GetOutput().GetDimensions())
+      return data3d
+
   # 1. create a segmentor object
   segmentor = SimpleflexSegmentor()
 
@@ -185,16 +193,14 @@ It is basically it! You can run the following script that will do the segmentati
   reader.SetDataSpacing (3.2, 3.2, 1.5)
   reader.Update()
 
-  # transform the data to numpy array
-  img_data = numpy_support.vtk_to_numpy(reader.GetOutput().GetPointData().GetScalars())
-  # get the details of the image:
-  # dimensions
-  dimensions = numpy.asarray(reader.GetOutput().GetDimensions())
+  # read the data as 3D numpy array
+  data3d = readAs3DNumpyArray(reader)
 
   # VTK images have swapped axis with respect to the Simpleflex algorithm
   segmentor.setAxisOrder([2,1,0])
-  segmentor.setImageDataDimensions(dimensions)
-  segmentor.setImageDataAsNumpyArray(img_data)
+
+  # accepts input as 3D numpy array
+  segmentor.setInputData(data3d)
 
   # 3. Calculate the Contour Tree
   segmentor.calculateContourTree()
@@ -301,6 +307,8 @@ It is basically it! You can run the following script that will do the segmentati
   #viewer.addActor(imageActor)
   viewer.startRenderLoop()
 
+
+  ###############################################################################
 
 
  

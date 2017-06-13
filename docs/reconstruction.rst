@@ -149,7 +149,7 @@ One may want to compare the results of the reconstruction algorithms:
 
 
 --------------------------
-The whole application code
+The whole demo code
 --------------------------
 
 ::

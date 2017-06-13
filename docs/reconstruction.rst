@@ -13,7 +13,8 @@ Installation
 A binary installation is available from the ccpi conda channel:
 
 ::
-   conda install -c ccpi ccpi-reconstruction=0.1 
+
+ conda install -c ccpi ccpi-reconstruction=0.1 
 
 -----
 Usage
@@ -43,17 +44,16 @@ that is available at the savu GitHub repository.
 Following we go through an example:
 
 ::
-    from ccpi.reconstruction.parallelbeam import alg
-	import numpy
-	import h5py
 
-	
-	
+ from ccpi.reconstruction.parallelbeam import alg
+ import numpy
+ import h5py
+
 After imports one should load the dataset. The pre-processing, i.e. load the nexus (hdf5) file, extracting the angles and image data, 
 scaling to 0-1 scalar range are done within the load_data function. 
 
 ::
-	###############################################################################
+
 	## 1) load a dataset:
 
 	# This dataset is freely available at
@@ -69,16 +69,19 @@ One should set
 1. the center of rotation, 
 2. the number of iterations,
 3. the number of CPU threads that one wants to use, 
-4. regolarisation parameters
+4. regolarisation parameters (only for CGLS_CONV, CGLS_TIKHONOV, CGLS_TVregularization)
 
 
 ::
-	###############################################################################
+	
 	## 2) 
 	## 
 	## Data can now be passed to the reconstruction algorithms:
 	## CGLS, MLEM, SIRT, CGLS_CONV, CGLS_TIKHONOV, CGLS_TVregularization
-
+    # center of rotation
+    center_of_rotation = numpy.double(86.2)
+    # resolution
+    resolution = 1
 	# number of iterations
 	niterations = 15
 	# number of threads
@@ -110,7 +113,7 @@ One should set
 One may want to compare the results of the reconstruction algorithms:
 
 ::
-	###############################################################################
+
 	## 3) Visualize a slice of the reconstructed images 
 
 	import matplotlib.pyplot as plt
@@ -147,6 +150,7 @@ The whole application code
 --------------------------
 
 ::
+
 	# -*- coding: utf-8 -*-
 	#   This work is part of the Core Imaging Library developed by
 	#   Visual Analytics and Imaging System Group of the Science Technology
@@ -316,4 +320,6 @@ The whole application code
 	ax[5].axis('off')  # clear x- and y-axesplt.show()
 	ax[5].set_title("TV Reg" , fontsize = fs)
 	plt.show()
+
+
 

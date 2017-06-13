@@ -111,6 +111,8 @@ One should set
 
 
 One may want to compare the results of the reconstruction algorithms:
+.. image:: ../pics/Reconstruction_CGLS_Figure_1.png
+
 
 ::
 

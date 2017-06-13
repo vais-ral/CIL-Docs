@@ -24,8 +24,8 @@ The Python wrapper for the CIL uses numpy arrays as medium to pass data to and f
 
 The iterative algorithm expects as input:
 
-  1. A 3D stack of 2D data image data at different angles: data must be in the range 0-1.
-  2. a 1D array of angles in degrees
+  1. A 3D stack of 2D data image data at different angles: data must be in the range 0-1. The number of projections must match the size of the angles array:
+  2. a 1D array of angles in degrees. The length of the array must match the number of projections.
   3. number of iterations
   4. number of CPU threads the algorithm should run
   5. resolution (an int parameter, what does it mean?)  
@@ -41,7 +41,7 @@ Example
 Let us go through an example that will reconstruct the `dataset <https://github.com/DiamondLightSource/Savu/blob/master/test_data/data/24737_fd.nxs>`_ 
 that is available at the savu GitHub repository.
 
-Following we go through an example:
+In the following we go through an example. First we must run the imports:
 
 ::
 
@@ -88,26 +88,39 @@ One should set
 	threads = 3
 
 	# CGLS
-	img_cgls = alg.cgls(norm, angle_proj, numpy.double(86.2), 1 , niterations, threads, False)
+	img_cgls = alg.cgls(norm, angle_proj, center_of_rotation , resolution , 
+			    niterations, threads, isPixelDataInLogScale)
 	# MLEM
-	img_mlem = alg.mlem(norm, angle_proj, numpy.double(86.2), 1 , niterations, threads, False)
+	img_mlem = alg.mlem(norm, angle_proj,  center_of_rotation , resolution , 
+			    niterations, threads, isPixelDataInLogScale)
 	# SIRT
-	img_sirt = alg.sirt(norm, angle_proj, numpy.double(86.2), 1 , niterations, threads, False)
+	img_sirt = alg.sirt(norm, angle_proj, center_of_rotation , resolution ,  
+			    niterations, threads, isPixelDataInLogScale)
 
 	# CGLS CONV
-	iteration_values = numpy.zeros((niterations,))
-	img_cgls_conv = alg.cgls_conv(norm, angle_proj, numpy.double(86.2), 1 , niterations, threads,
-								  iteration_values, False)
+	iteration_values1 = numpy.zeros((niterations,))
+	img_cgls_conv = alg.cgls_conv(norm, angle_proj, center_of_rotation , 
+				      resolution , 
+				      niterations , threads,
+				      iteration_values1 , isPixelDataInLogScale)
+
+	#Regularization parameter
+	regularization = numpy.double(1e-3)
 
 	# CGLS TIKHONOV
-	iteration_values = numpy.zeros((niterations,))
-	img_cgls_tikhonov = alg.cgls_tikhonov(norm, angle_proj, numpy.double(86.2), 1 , niterations, threads,
-										  numpy.double(1e-5), iteration_values , False)
+	iteration_values2 = numpy.zeros((niterations,))
+	img_cgls_tikhonov = alg.cgls_tikhonov(norm, angle_proj, center_of_rotation , 
+					      resolution , niterations, threads,
+					      regularization, iteration_values2 , 
+					      isPixelDataInLogScale)
 
 	# CGLS Total Variation Regularization 
-	iteration_values = numpy.zeros((niterations,))
-	img_cgls_TVreg = alg.cgls_TVreg(norm, angle_proj, numpy.double(86.2), 1 , niterations, threads,
-										  numpy.double(1e-5), iteration_values , False)
+	iteration_values3 = numpy.zeros((niterations,))
+	img_cgls_TVreg = alg.cgls_TVreg(norm, angle_proj, center_of_rotation , 
+					resolution ,  niterations, threads,
+					      regularization, iteration_values3,
+					      isPixelDataInLogScale)
+
 
 
 One may want to compare the results of the reconstruction algorithms:

@@ -78,10 +78,10 @@ One should set
 	## 
 	## Data can now be passed to the reconstruction algorithms:
 	## CGLS, MLEM, SIRT, CGLS_CONV, CGLS_TIKHONOV, CGLS_TVregularization
-    # center of rotation
-    center_of_rotation = numpy.double(86.2)
-    # resolution
-    resolution = 1
+	# center of rotation
+	center_of_rotation = numpy.double(86.2)
+	# resolution
+	resolution = 1
 	# number of iterations
 	niterations = 15
 	# number of threads

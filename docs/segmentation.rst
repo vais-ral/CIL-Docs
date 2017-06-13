@@ -12,18 +12,16 @@ The CIL provides the Segmentation Algorithm described by Carr et al. [Carr2003]_
 The algorithm is developed in C++ and it is fully wrapped in Python. 
 
 The algorithm expects to receive a 3D numpy array as input, and outputs a numpy array with the location of 
-the points of the isosurfaces in space. 
+the points of the isosurfaces in image coordinates. 
 It must be pointed out that there are at least 2 reference system of the points
 of an image: 
 
 - Image Coordinate: the actual pixel number in each dimension
 - World Coordinate: the location in the *real world*
   
-World coordinates are linear transformation of the image coordinate. For example, the size of the pixel 
-may not be uniform in the 3 dimensions resulting in a stretched image in some direction. 
+World coordinates are linear transformation of the image coordinate. For example, the size of the pixel (voxel) may not be uniform in the 3 dimensions resulting in a stretched image in some direction. 
 
-The algorithm itself has no clue about the World coordinate and its output is in image coordinate. The user is required to apply
-the appropriate transformations to translate image coordinates to world coordinates. In the example that follows we will make a 
+The algorithm itself has no clue about the world-coordinates and its output is in image-coordinates. The user is required to apply the appropriate transformations to translate image coordinates to world coordinates. In the example that follows we will make a 
 image-to-world transformation. 
 
 ------------
@@ -33,6 +31,7 @@ Installation
 A binary installation is available from the ccpi conda channel:
 
 ::
+
     conda install -c ccpi ccpi-segmentation=0.1 
 
 -----
@@ -43,7 +42,7 @@ The Python wrapper for the CIL uses numpy arrays as medium to pass data to and f
 
 The algorithm outputs numpy arrays.
 
-To explain how to use it let us go through an example. In the example we will use the viewer that can be downloaded `here <https://github.com/vais-ral/CILViewer>`_. The data we will be using is from VTKData and can be found `here <https://github.com/naucoin/VTKData/tree/master/Data/headsq>`_. 
+To explain how to use it let us go through an example. In the example we will use the viewer that can be downloaded `here <https://github.com/vais-ral/CILViewer>`_. The data we will be using is from `VTKData <https://github.com/naucoin/VTKData/tree/master/Data/headsq>`_. 
 
 First of all, we start with the proper imports:
 :: 
@@ -59,10 +58,12 @@ The Create a Segmentor and pass data
 
 The algorithm accepts input as 3D numpy arrays. It will detect the dimensions and it will scale the image to an appropriate size (unsigned short or unsigned char). The only thing to pay attention to is the axis order: normally images are stored in contiguous arrays and the index is calculated as :
 ::
+
     index = x + y * DimX + z * DimX * DimY
     
 For historical reasons, the simpleflex algorithm indexes the axis swapping the Z and the X axis and its index is:
 :: 
+
     index = z + y * DimZ + x * DimZ * DimZ
 
 The algorithm is wrapped in a Object oriented fashion, and therefore it needs to be instatiated and passed the data. 
@@ -72,16 +73,11 @@ The algorithm is wrapped in a Object oriented fashion, and therefore it needs to
 
     # 2. Load some data and pass data into the algorithm
     # load data with vtk
-    reader = vtk.vtkVolume16Reader()
-    reader.SetDataDimensions (64,64)
-    reader.SetImageRange(1,93)
-    reader.SetDataByteOrderToLittleEndian()
-    reader.SetFilePrefix("C:\\Users\\ofn77899\\Documents\\GitHub\\VTKData\\Data\\headsq\\quarter")
-    reader.SetDataSpacing (3.2, 3.2, 1.5)
-    reader.Update()
-    
+    filename = "C:\\Path\\to\\VTKData\\Data\\headsq\\quarter"
+
     # read the data as 3D numpy array
-    data3d = readAs3DNumpyArray(reader)
+    data3d , reader = readAs3DNumpyArray(filename)
+
 
     # VTK images have swapped Z/X axis with respect to the Simpleflex algorithm
     segmentor.setAxisOrder([2,1,0])
@@ -120,8 +116,8 @@ Data retrieval is fairly simple. One should just know what the algorithm outputs
    sorted_isosurface = segmentor.getSurfaces()
 
    ## Example: the points of the second largest (index 1) iso-surface are found as
-   coord_list[sorted_isosurface[1][0]] # the first coordinate
-   coord_list[sorted_isosurface[1][1]] # the last coordinate
+   coord_list[sorted_isosurface[1][0]] # the first (Z) coordinate
+   coord_list[sorted_isosurface[1][1]] # the last (X) coordinate
 
    # the image coordinates of the first point in 3D of this iso-surface are
    point_a = tuple(
@@ -146,6 +142,8 @@ Data retrieval is fairly simple. One should just know what the algorithm outputs
    # all the triangles in one isosurface
   
 It is basically it! You can run the following script that will do the segmentation and show something on screen.
+
+
 
 ::
     # -*- coding: utf-8 -*-
@@ -174,29 +172,30 @@ It is basically it! You can run the following script that will do the segmentati
 
     from CILViewer import CILViewer
 
-    def readAs3DNumpyArray(vtkReader):
-        # transform the VTK data to 3D numpy array
-        img_data = numpy_support.vtk_to_numpy(
-            vtkReader.GetOutput().GetPointData().GetScalars())
+    def readAs3DNumpyArray(filename):
+		reader = vtk.vtkVolume16Reader()
+		reader.SetDataDimensions (64,64)
+		reader.SetImageRange(1,93)
+		reader.SetDataByteOrderToLittleEndian()
+		reader.SetFilePrefix(filename)
+		reader.SetDataSpacing (3.2, 3.2, 1.5)
+		reader.Update()
+		# transform the VTK data to 3D numpy array
+		img_data = numpy_support.vtk_to_numpy(
+			reader.GetOutput().GetPointData().GetScalars())
 
-        data3d = numpy.reshape(img_data, vtkReader.GetOutput().GetDimensions())
-        return data3d
+		data3d = numpy.reshape(img_data, reader.GetOutput().GetDimensions())
+		return (data3d , reader)
 
-    # 1. create a segmentor object
-    segmentor = SimpleflexSegmentor()
+	# 1. create a segmentor object
+	segmentor = SimpleflexSegmentor()
 
-    # 2. Pass data into the segmentor
-    # load data with vtk
-    reader = vtk.vtkVolume16Reader()
-    reader.SetDataDimensions (64,64)
-    reader.SetImageRange(1,93)
-    reader.SetDataByteOrderToLittleEndian()
-    reader.SetFilePrefix("C:\\Users\\ofn77899\\Documents\\GitHub\\VTKData\\Data\\headsq\\quarter")
-    reader.SetDataSpacing (3.2, 3.2, 1.5)
-    reader.Update()
+	# 2. Pass data into the segmentor
+	# load data with vtk
+	filename = "C:\\Users\\ofn77899\\Documents\\GitHub\\VTKData\\Data\\headsq\\quarter"
 
-    # read the data as 3D numpy array
-    data3d = readAs3DNumpyArray(reader)
+	# read the data as 3D numpy array
+	data3d , reader = readAs3DNumpyArray(filename)
 
     # VTK images have swapped axis with respect to the Simpleflex algorithm
     segmentor.setAxisOrder([2,1,0])
@@ -210,7 +209,7 @@ It is basically it! You can run the following script that will do the segmentati
     # 4. Set the iso-value in percent of the image dynamic range
     # one can also pass the actual value 
     #segmentor.setIsoValue(some_value)
-    segmentor.setIsoValuePercent(20)
+    segmentor.setIsoValuePercent(35)
 
     # 5. Construct the iso-surfaces
     segmentor.constructIsoSurfaces()

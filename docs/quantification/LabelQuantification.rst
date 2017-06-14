@@ -22,6 +22,7 @@ API
 ----
 
 .. code-block:: python
+
 	LabelQuantificationUShort(input_3d_volume, origin, voxel_size, min_data_value, max_data_value, minimum_feature_size)
 	
 

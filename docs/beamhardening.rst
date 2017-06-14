@@ -12,12 +12,12 @@ the beam hardening process which occurs when a broad spectrum source is used to 
 This model can then be used to generate corrections appropriate for a single material to convert
 the observed attenuation values into the actual attenuation that would be observed for that material
 with monochromatic X-rays at a given energy.
-This software is based on the IDL package and ideas described in [DEM13].
+This software is based on the IDL package and ideas described in [DEM13]_.
 
 
 Introduction
 #############
-Beam hardening is well known problem that is described in many works, see [DEM13].
+Beam hardening is well known problem that is described in many works, see [DEM13]_.
 This software takes as input a number of images of well characterised samples and uses these
 to fit a simple model of the expected beam hardening (BH) to the observed data.
 The result is an estimate of the "response function", R(E), which gives the expected output signal
@@ -27,7 +27,7 @@ and detector.
 Note that due to aging effects of the X-ray source, detector, etc., this function may change over time,
 so ideally the calibration measurements should be made before and after each CT scan.
 In addition the model allows for variation in the form of R(E) with the number of the scan line.
-This can occur due to the way the emitted X-ray spectra is known to depend on the "take-off" angle [DEM13] .
+This can occur due to the way the emitted X-ray spectra is known to depend on the "take-off" angle [DEM13]_ .
 Use of pre-filtering the X-ray reduces both beam hardening effects and the variation of these with take-off
 angle. Low energy X-rays show the greatest variation with take-off angle.
 Davis recommends using both pre-filtering as well as the software correction described in this guide
@@ -37,7 +37,7 @@ Using the fitted response function of the system it is then possible to determin
 that will map from the observed attenuation to the true attenuation that would be seen at a given
 monochromatic X-ray energy.
 This correction curve is calculated assuming the sample is composed of a single material type
-for which the X-ray attenuation coefficient can be determined, using a program such as XCOM [xcom].
+for which the X-ray attenuation coefficient can be determined, using a program such as XCOM [xcom]_.
 This allows for compound materials, as long as the composition is constant.
 In the case of samples made of more than one compound the correction curve will only be applicable
 if one material is the dominant absorber and corrections made to that material.
@@ -56,7 +56,23 @@ projection package and the CCPi CGLS iterative code.
 
 Downloading and running the software
 ####################################
+Installing the binary
+**********************
+If you have a Python distribution from Continuum(Anaconda https://www.continuum.io/downloads) then you can install the binary package CCPi Anaconda channel (https://anaconda.org/ccpi/). Please follow the instructions below,
 
+.. code-block:: shell
+
+   conda install -c ccpi ccpi-preprocessing
+   
+This will provide the executables for running the CarouselFit.
+
+.. code-block:: shell
+
+   CarouselFit
+   
+
+Installing from Source
+***********************
 The software is available from the CCPForge repository.
 It consists of a Python software package along with a number of data files that are used to help model the X-ray
 beams and the material attenuation.
@@ -109,7 +125,7 @@ On Windows systems Anaconda python can be accessed from the Start Menu after it 
 Configuration files
 ###################
 
-The original calibration device described in [DEM13] was called a carousal as it was built from a set of 9 test samples
+The original calibration device described in [DEM13]_ was called a carousal as it was built from a set of 9 test samples
 arranged between two circular supports allowing for each of the samples to be imaged individually by the scanner.
 The samples would cover the full range of lines in the scanner, but not the full range of each row; typically only
 the centre half of each row would be covered by the sample.

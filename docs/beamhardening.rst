@@ -1,15 +1,11 @@
 
 Beam Hardening Correction (CarouselFit):
 ========================================
-User Guide
-==========
-
 **Dr. Ronald Fowler**
-
 *STFC Rutherford Appleton Laboratory*
 
 Abstract
-=============
+#########
 This document is a brief user guide to the Python software package CarouselFit. This software takes image
 data from a number of known samples, e.g. from an X-ray CT machine, and fits them to a model of
 the beam hardening process which occurs when a broad spectrum source is used to image a sample.
@@ -20,7 +16,7 @@ This software is based on the IDL package and ideas described in [DEM13].
 
 
 Introduction
-==============
+#############
 Beam hardening is well known problem that is described in many works, see [DEM13].
 This software takes as input a number of images of well characterised samples and uses these
 to fit a simple model of the expected beam hardening (BH) to the observed data.

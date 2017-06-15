@@ -1,23 +1,36 @@
 Reconstruction Module
-======================
+######################
 
-
-===================================
-CCPi CGLS Reconstruction Algorithm
-===================================
 
 ------------
 Installation
 ------------
 
-A binary installation is available from the ccpi conda channel:
+CCPi Reconstruction codes are only available as binary distribution. Anaconda distribution of python is required, Download and installation instructions are available at https://www.continuum.io/downloads. Please follow the instructions below for installing CCPi Reconstruction codes from anaconda channel.
 
 ::
 
- conda install -c ccpi ccpi-reconstruction=0.1 
+ conda install -c ccpi ccpi-reconstruction -c conda-forge
+
+
+
+CCPi CGLS Reconstruction Algorithm
+***********************************
+ 
+There are three main iterative reconstructions available in this package. they are 
+* Conjugate Gradient Least Squares (CGLS)
+* Maximum Likelihood Estimation Method (MLEM)
+* Simultaneous Iterative Reconstructive Technique (SIRT)
+
+In addition to the above methods there are three more varients of CGLS available in this package. they are 
+
+* CGLS with Convolution
+* CGLS with Tikhonov regularization
+* CGLS with Total Variation Regularisation (TV)
+
 
 -----
-Usage
+API
 -----
 
 The Python wrapper for the CIL uses numpy arrays as medium to pass data to and from each algorithm. 

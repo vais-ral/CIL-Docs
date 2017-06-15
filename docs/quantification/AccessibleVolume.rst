@@ -8,6 +8,7 @@ API
 .. code-block:: python
    
    AccessibleVolumeInput(voxel_size, origin, input_data, mask_data)
+   
    voxel_size: numpy array with sizes along 3 dimensions (x_size,y_size,z_size)
    origin: numpy array with origin of the volume (x_center, y_center, z_center)
    input_data: numpy array 3d volume and has to be an 8bit data.
@@ -16,6 +17,7 @@ API
 .. code-block:: python
    
    AccessibleVolume(input_volume, sphere_diameter_range_min_in_log, sphere_diameter_range_max_in_log, number_of_spheres_in_range, input_image_resolution)
+   
    input_volume: of type AccessibleVolumeInput
    sphere_diameter_range_min_in_log: logarithmic value of minimum sphere diameter range that need to be used in calculating accessible volume.
    sphere_diameter_range_max_in_log: logarithmic value of maximum sphere diameter range that need to be used in calculating accessible volume.

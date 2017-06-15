@@ -21,6 +21,8 @@ The details of this algorithm are given in Evaluation of 3D bioactive glass scaf
 API
 ----
 
+Depending on the input data type please use the method LabelQuantification<xxxxx>
+
 .. code-block:: python
 
 	LabelQuantificationUShort(input_3d_volume, origin, voxel_size, min_data_value, max_data_value, minimum_feature_size)
@@ -30,9 +32,17 @@ API
 	LabelQuantificationShort(input_3d_volume, origin, voxel_size, min_data_value, max_data_value, minimum_feature_size)
 	LabelQuantificationChar(input_3d_volume, origin, voxel_size, min_data_value, max_data_value, minimum_feature_size)
 
+	input_3d_volume: numpy array of 3d volume. data type reflects the function suffix.
+	origin: numpy array with 3 values. 
+	voxel_size: numpy array representing a voxel size in three dimensions (x,y,z)
+	min_data_value: minimum value of the input volume
+	max_data_value: maximum value of the input volume
+	minimum_feature_size: minimum size of the feature
 	
 Example
 --------
+
+To run the example code you need to download the following data file: :download:` Foam Data <../../test/FoamData.tif>`
 
 .. code-block:: python
   

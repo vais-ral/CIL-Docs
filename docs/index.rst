@@ -12,10 +12,3 @@ to make them run faster and maintainable.
    reconstruction
    quantification
    segmentation
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

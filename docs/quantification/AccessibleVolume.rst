@@ -24,6 +24,16 @@ API
    number_of_spheres_in_range: the number of spheres diameters that are used in the input sphere diameter range for which accessible volume is calculated.
    input_image_resolution: image resolution usually (1.0).
 
+   returns: AccessibleVolume object
+   
+   AccessibleVolume.compute()
+   
+   This method invokes the computation.
+   
+   AccessibleVolume.getAccessibleVolume()
+   
+   This method returns a list with sphere diameter and its corresponding accessible volume.
+   
 Example
 --------
 
@@ -52,5 +62,8 @@ To run the example code you need to download the following files :download:`Inpu
    #get the accessible volume for each sphere diameter
    output = av.getAccessibleVolume()
    print(output)
+   
    data.close()
    mask.close() 
+   
+.. image:: ../pics/AccessibleVolume.jpg   

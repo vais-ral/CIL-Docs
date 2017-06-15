@@ -39,6 +39,8 @@ Depending on the input data type please use the method LabelQuantification<xxxxx
 	max_data_value: maximum value of the input volume
 	minimum_feature_size: minimum size of the feature
 	
+	returns: an List with each row representing a label and it corresponding values.
+	
 Example
 --------
 
@@ -70,3 +72,5 @@ To run the example code you need to download the following data file: :download:
 	
     print(output)
     img.close()
+	
+.. image:: ../pics/LabelQuantification.jpg   	

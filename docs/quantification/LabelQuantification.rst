@@ -24,8 +24,13 @@ API
 .. code-block:: python
 
 	LabelQuantificationUShort(input_3d_volume, origin, voxel_size, min_data_value, max_data_value, minimum_feature_size)
-	
+	LabelQuantificationUInt(input_3d_volume, origin, voxel_size, min_data_value, max_data_value, minimum_feature_size)
+	LabelQuantificationUChar(input_3d_volume, origin, voxel_size, min_data_value, max_data_value, minimum_feature_size)
+	LabelQuantificationInt(input_3d_volume, origin, voxel_size, min_data_value, max_data_value, minimum_feature_size)
+	LabelQuantificationShort(input_3d_volume, origin, voxel_size, min_data_value, max_data_value, minimum_feature_size)
+	LabelQuantificationChar(input_3d_volume, origin, voxel_size, min_data_value, max_data_value, minimum_feature_size)
 
+	
 Example
 --------
 
@@ -37,7 +42,7 @@ Example
     import math
     from tifffile import TiffFile        
 	
-	#Read the input volume
+	#Read the input volume which is labelled during segmentation
     img = TiffFile('test/FoamData.tif')        
     data = img.asarray()
 	

@@ -8,13 +8,24 @@ API
 .. code-block:: python
    
    AccessibleVolumeInput(voxel_size, origin, input_data, mask_data)
+   voxel_size: numpy array with sizes along 3 dimensions (x_size,y_size,z_size)
+   origin: numpy array with origin of the volume (x_center, y_center, z_center)
+   input_data: numpy array 3d volume and has to be an 8bit data.
+   mask_data: numpy array 3d mask volume and it has to be an 8bit data.
 
 .. code-block:: python
    
    AccessibleVolume(input_volume, sphere_diameter_range_min_in_log, sphere_diameter_range_max_in_log, number_of_spheres_in_range, input_image_resolution)
+   input_volume: of type AccessibleVolumeInput
+   sphere_diameter_range_min_in_log: logarithmic value of minimum sphere diameter range that need to be used in calculating accessible volume.
+   sphere_diameter_range_max_in_log: logarithmic value of maximum sphere diameter range that need to be used in calculating accessible volume.
+   number_of_spheres_in_range: the number of spheres diameters that are used in the input sphere diameter range for which accessible volume is calculated.
+   input_image_resolution: image resolution usually (1.0).
 
 Example
 --------
+
+To run the example code you need to download the following files :download:`Input Data <../test/Data128.tif>` and :download:`Mask Data <../test/DataMask128.tif>`
 
 .. code-block:: python
 

@@ -2,9 +2,8 @@ Reconstruction Module
 ######################
 
 
-------------
 Installation
-------------
+**************
 
 CCPi Reconstruction codes are only available as binary distribution. Anaconda distribution of python is required, Download and installation instructions are available at https://www.continuum.io/downloads. Please follow the instructions below for installing CCPi Reconstruction codes from anaconda channel.
 
@@ -29,9 +28,9 @@ In addition to the above methods there are three more varients of CGLS available
 * CGLS with Total Variation Regularisation (TV)
 
 
------
+
 API
------
+====
 
 The Python wrapper for the CIL uses numpy arrays as medium to pass data to and from each algorithm. 
 
@@ -47,9 +46,9 @@ The iterative algorithm expects as input:
 
 The algorithm outputs one 3D numpy array.
 
---------
+
 Example
---------
+========
 
 Let us go through an example that will reconstruct the `dataset <https://github.com/DiamondLightSource/Savu/blob/master/test_data/data/24737_fd.nxs>`_ 
 that is available at the savu GitHub repository.
@@ -174,9 +173,9 @@ One may want to compare the results of the reconstruction algorithms:
 	plt.show()
 
 
---------------------------
+
 The whole demo code
---------------------------
+=====================
 
 ::
 

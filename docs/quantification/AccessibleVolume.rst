@@ -25,7 +25,7 @@ API
 Example
 --------
 
-To run the example code you need to download the following files :download:`Input Data <../test/Data128.tif>` and :download:`Mask Data <../test/DataMask128.tif>`
+To run the example code you need to download the following files :download:`Input Data <../../test/Data128.tif>` and :download:`Mask Data <../../test/DataMask128.tif>`
 
 .. code-block:: python
 

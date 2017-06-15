@@ -73,4 +73,4 @@ To run the example code you need to download the following data file: :download:
     print(output)
     img.close()
 	
-.. image:: ../pics/LabelQuantification.jpg   	
+.. image:: ../../pics/LabelQuantification.jpg   	

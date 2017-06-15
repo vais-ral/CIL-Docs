@@ -66,4 +66,4 @@ To run the example code you need to download the following files :download:`Inpu
    data.close()
    mask.close() 
    
-.. image:: ../pics/AccessibleVolume.jpg   
+.. image:: ../../pics/AccessibleVolume.jpg   

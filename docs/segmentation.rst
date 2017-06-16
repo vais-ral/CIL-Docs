@@ -110,7 +110,7 @@ Data retrieval is fairly simple. One should just know what the algorithm outputs
 - a list of coordinates of all the points that make up the isosurface. 3 coordinates identify 1 point in a 3D space
 - a list of tuples containing the start index, end index and total number of points in one specific iso-surface. The start/end are indices for the list of coordinates. This list is sorted from largest to smallest surface. For instance, the second largest surface will be the second element of the list of tuples.
 
-.. code-block::
+.. code-block:: python
 
     # 6. Retrieve the isosurfaces
     coord_list = segmentor.getTrianglePoints()

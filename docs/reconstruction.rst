@@ -36,7 +36,7 @@ API
 The Python wrapper for the CIL uses numpy arrays as medium to pass data to and from each algorithm. 
 
 
-..code-block:: python
+.. code-block:: python
     
 	ccpi.reconstruction.parallelbeam.alg.cgls(normalized_sinogram, projection_angles, center_of_rotation , resolution, number_iterations, threads, isPixelDataInLogScale)
 	ccpi.reconstruction.parallelbeam.alg.mlem(normalized_sinogram, projection_angles, center_of_rotation , resolution, number_iterations, threads, isPixelDataInLogScale)

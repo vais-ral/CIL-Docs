@@ -33,6 +33,11 @@ available on CT machines. While this does reduce the problem, it can not fully s
 to get close to monochromatic beam would leave such a weak high energy beam as to make imaging impractically
 slow. Hence a compromise has to be made with sufficient filtering to reduce beam hardening effects while
 allowing enough X-rays through to image the sample in reasonable time.
+The figure below compares the 80KeV spectra for an X-ray tube with no added filtering and with 1mm Cu
+filtering. The Cu filter reduces the energy range, but still leaves a polychromatic beam.
+Plots have been normalised, but the Cu beam will have lower intensity than unfiltered one at all points.
+
+.. image:: ../pics/SiemSpec.png
 
 If the energy distribution of the filtered X-ray beam is known, along with the energy dependent attenuation
 of the sample, then it is possible to apply a correction to the measured attenuation so as to remove

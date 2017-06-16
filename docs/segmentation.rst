@@ -111,6 +111,7 @@ Data retrieval is fairly simple. One should just know what the algorithm outputs
 - a list of tuples containing the start index, end index and total number of points in one specific iso-surface. The start/end are indices for the list of coordinates. This list is sorted from largest to smallest surface. For instance, the second largest surface will be the second element of the list of tuples.
 
 .. code-block::
+
     # 6. Retrieve the isosurfaces
     coord_list = segmentor.getTrianglePoints()
     sorted_isosurface = segmentor.getSurfaces()
@@ -144,8 +145,8 @@ Data retrieval is fairly simple. One should just know what the algorithm outputs
 It is basically it! You can run the following script that will do the segmentation and show something on screen.
 
 
-
 .. code-block:: python
+
     # -*- coding: utf-8 -*-
     #   This work is part of the Core Imaging Library developed by
     #   Visual Analytics and Imaging System Group of the Science Technology

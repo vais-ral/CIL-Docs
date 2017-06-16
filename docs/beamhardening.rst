@@ -37,7 +37,7 @@ The figure below compares the 80KeV spectra for an X-ray tube with no added filt
 filtering. The Cu filter reduces the energy range, but still leaves a polychromatic beam.
 Plots have been normalised, but the Cu beam will have lower intensity than unfiltered one at all points.
 
-.. image:: ../pics/SiemSpec.png
+.. image:: ../pics/siemSpec.png
 
 If the energy distribution of the filtered X-ray beam is known, along with the energy dependent attenuation
 of the sample, then it is possible to apply a correction to the measured attenuation so as to remove

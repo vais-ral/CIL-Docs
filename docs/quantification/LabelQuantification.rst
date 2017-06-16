@@ -44,7 +44,7 @@ Depending on the input data type please use the method LabelQuantification<xxxxx
 Example
 --------
 
-To run the example code you need to download the following data file: :download:` Foam Data <../../test/FoamData.tif>`
+To run the example code you need to download the following data file: :download:`Foam Data <../../test/FoamData.tif>`
 
 .. code-block:: python
   

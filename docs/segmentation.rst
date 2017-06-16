@@ -111,35 +111,35 @@ Data retrieval is fairly simple. One should just know what the algorithm outputs
 - a list of tuples containing the start index, end index and total number of points in one specific iso-surface. The start/end are indices for the list of coordinates. This list is sorted from largest to smallest surface. For instance, the second largest surface will be the second element of the list of tuples.
 
 :: 
-   # 6. Retrieve the isosurfaces
-   coord_list = segmentor.getTrianglePoints()
-   sorted_isosurface = segmentor.getSurfaces()
+    # 6. Retrieve the isosurfaces
+    coord_list = segmentor.getTrianglePoints()
+    sorted_isosurface = segmentor.getSurfaces()
+ 
+    ## Example: the points of the second largest (index 1) iso-surface are found as
+    coord_list[sorted_isosurface[1][0]] # the first (Z) coordinate
+    coord_list[sorted_isosurface[1][1]] # the last (X) coordinate
+ 
+    # the image coordinates of the first point in 3D of this iso-surface are
+    point_a = tuple(
+       coord_list[sorted_isosurface[1][0]],
+       coord_list[sorted_isosurface[1][0]+1],
+       coord_list[sorted_isosurface[1][0]+2]
+    )
 
-   ## Example: the points of the second largest (index 1) iso-surface are found as
-   coord_list[sorted_isosurface[1][0]] # the first (Z) coordinate
-   coord_list[sorted_isosurface[1][1]] # the last (X) coordinate
+    # the first triangle will be identified by 3 consecutive points: point_a, point_b, point_c
+    point_b = tuple(
+       coord_list[sorted_isosurface[1][0]+3],
+       coord_list[sorted_isosurface[1][0]+4],
+       coord_list[sorted_isosurface[1][0]+5]
+    )
+    point_c = tuple(
+       coord_list[sorted_isosurface[1][0]+6],
+       coord_list[sorted_isosurface[1][0]+7],
+       coord_list[sorted_isosurface[1][0]+8]
+    )
 
-   # the image coordinates of the first point in 3D of this iso-surface are
-   point_a = tuple(
-      coord_list[sorted_isosurface[1][0]],
-      coord_list[sorted_isosurface[1][0]+1],
-      coord_list[sorted_isosurface[1][0]+2]
-   )
-
-   # the first triangle will be identified by 3 consecutive points: point_a, point_b, point_c
-   point_b = tuple(
-      coord_list[sorted_isosurface[1][0]+3],
-      coord_list[sorted_isosurface[1][0]+4],
-      coord_list[sorted_isosurface[1][0]+5]
-   )
-   point_c = tuple(
-      coord_list[sorted_isosurface[1][0]+6],
-      coord_list[sorted_isosurface[1][0]+7],
-      coord_list[sorted_isosurface[1][0]+8]
-   )
-
-   # running from sorted_isosurface[i][0] to sorted_isosurface[i][1] one finds
-   # all the triangles in one isosurface
+    # running from sorted_isosurface[i][0] to sorted_isosurface[i][1] one finds
+    # all the triangles in one isosurface
   
 It is basically it! You can run the following script that will do the segmentation and show something on screen.
 

@@ -74,6 +74,12 @@ constant ratio of attenuation in this energy range then their correction curves 
 However if one has a sharp step in attenuation in this range (a K-edge) while the other does not,
 then correction curves can be very different. This method is designed for samples of a single
 material or where one material is the dominant component.
+The figure below compares the corrections curves for three materials, Ca-hydroxylapatite (brown),
+aluminium (purple) and tin (blue) with some pre-filtering at 80KeV. The first two have similar correction
+curves, particularly at low attenuation. The tin curve is different at all attenuations due to a k-edge that
+causes a jump in its attenuation at about 30KeV.
+
+.. image:: ../pics/bhcorrCurves.png
 
 The next section describes how to download and run the software.
 The following section describes how to set up the necessary files that give
@@ -91,14 +97,13 @@ Downloading and running the software
 ####################################
 Installing the binary
 **********************
-If you have a Python distribution from Continuum(Anaconda https://www.continuum.io/downloads) then you can install the binary package from the CCPi Anaconda channel (https://anaconda.org/ccpi/). To do so on Windows, issue the following command in
-an anaconda command prompt:
+If you have a Python distribution from Continuum(Anaconda https://www.continuum.io/downloads) then you can install the binary package from the CCPi Anaconda channel (https://anaconda.org/ccpi/). To do issue the following at
+a command prompt:
 
 .. code-block:: shell
 
    conda install -c ccpi ccpi-preprocessing
    
-On Linux systems the same command can be used at a terminal prompt if conda is in your PATH.
 This will provide the executables for running the CarouselFit.
 
 .. code-block:: shell

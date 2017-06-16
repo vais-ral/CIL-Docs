@@ -13,10 +13,11 @@ CCPi Reconstruction codes are only available as binary distribution. Anaconda di
 
 
 
-CCPi CGLS Reconstruction Algorithm
-***********************************
+CCPi Iterative Reconstruction Algorithms
+*****************************************
  
 There are three main iterative reconstructions available in this package. they are 
+
 * Conjugate Gradient Least Squares (CGLS)
 * Maximum Likelihood Estimation Method (MLEM)
 * Simultaneous Iterative Reconstructive Technique (SIRT)
@@ -27,30 +28,41 @@ In addition to the above methods there are three more varients of CGLS available
 * CGLS with Tikhonov regularization
 * CGLS with Total Variation Regularisation (TV)
 
-
+These reconstruction algorithms currently only work on the parallel beam datasets. The next version will have a support for iterative reconstruction algorithms for cone beam datasets.
 
 API
 ====
 
 The Python wrapper for the CIL uses numpy arrays as medium to pass data to and from each algorithm. 
 
-The iterative algorithm expects as input:
 
-  1. A 3D stack of 2D data image data at different angles: data must be in the range 0-1. The number of projections must match the size of the angles array:
-  2. a 1D array of angles in degrees. The length of the array must match the number of projections.
-  3. number of iterations
-  4. number of CPU threads the algorithm should run
-  5. resolution (an int parameter, what does it mean?)  
-  6. if the scale of the pixel is logarithmic
-  7. Regularizing algorithms need additional regularization parameter (double), and an additional 1D array of number of iteration size
-
-The algorithm outputs one 3D numpy array.
-
-
+..code-block:: python
+    
+	ccpi.reconstruction.parallelbeam.alg.cgls(normalized_sinogram, projection_angles, center_of_rotation , resolution, number_iterations, threads, isPixelDataInLogScale)
+	ccpi.reconstruction.parallelbeam.alg.mlem(normalized_sinogram, projection_angles, center_of_rotation , resolution, number_iterations, threads, isPixelDataInLogScale)
+	ccpi.reconstruction.parallelbeam.alg.sirt(normalized_sinogram, projection_angles, center_of_rotation , resolution, number_iterations, threads, isPixelDataInLogScale)
+	
+	ccpi.reconstruction.parallelbeam.alg.cgls_conv(normalized_sinogram, projection_angles, center_of_rotation , resolution, number_iterations, threads, regularize, isPixelDataInLogScale)
+	ccpi.reconstruction.parallelbeam.alg.cgls_tikhonov(normalized_sinogram, projection_angles, center_of_rotation , resolution, number_iterations, threads, regularize, isPixelDataInLogScale)
+	ccpi.reconstruction.parallelbeam.alg.cgls_TVreg(normalized_sinogram, projection_angles, center_of_rotation , resolution, number_iterations, threads, regularize, isPixelDataInLogScale)
+	
+	:parameters:
+	normalized_sinogram: a numpy array with float32 values representing a sinogram. This can be in -log() values, if so then set the isPixelDataInLogScale to True.
+	projection_angles: a numpy array with float32 values representing angles in degress.
+	center_of_rotation: a double value specifying the center of rotation
+	resolution: an integer values representing the resolution of number of pixels per voxel.
+	number_iteration: an integer value representing the number of iteration the algorithm need to run.
+	threads: an integer value representing the number of CPU cores to use for computation
+	isPixelDataInLogScale: an boolean value representing whether the sinogram values are in -log() or not.
+	regularize: an double value representing the regularization factor.
+	
+	returns: an numpy array with float32 representing an reconstructed volume.
+	
+	
 Example
 ========
 
-Let us go through an example that will reconstruct the `dataset <https://github.com/DiamondLightSource/Savu/blob/master/test_data/data/24737_fd.nxs>`_ 
+Let us go through an example that will reconstruct the :download:`dataset <https://github.com/DiamondLightSource/Savu/blob/master/test_data/data/24737_fd.nxs>`
 that is available at the savu GitHub repository.
 
 In the following we go through an example. First we must run the imports:
@@ -71,7 +83,7 @@ scaling to 0-1 scalar range are done within the load_data function.
 	# This dataset is freely available at
 	# https://github.com/DiamondLightSource/Savu/blob/master/test_data/data/24737_fd.nxs 
 		
-	filename = "C:\\Users\\ofn77899\\Documents\\CCPi\\CGLS\\24737_fd_2.nxs"
+	filename = "24737_fd.nxs"
 	norm, angle_proj = load_data(filename)
 
 	
@@ -207,7 +219,7 @@ The whole demo code
 	    ###############################################################################
 	    ## Load a dataset
 	    print ("Loading Data")
-	    #fname = "C:\\Users\\ofn77899\\Documents\\CCPi\\CGLS\\24737_fd_2.nxs"
+	    #fname = "24737_fd.nxs"
 	    nx = h5py.File(filename, "r")
 
 	    data = nx.get('entry1/tomo_entry/data/rotation_angle')
@@ -280,7 +292,7 @@ The whole demo code
 	# This dataset is freely available at
 	# https://github.com/DiamondLightSource/Savu/blob/master/test_data/data/24737_fd.nxs 
 
-	filename = "C:\\Users\\ofn77899\\Documents\\CCPi\\CGLS\\24737_fd_2.nxs"
+	filename = "24737_fd.nxs"
 	norm, angle_proj = load_data(filename)
 
 	###############################################################################

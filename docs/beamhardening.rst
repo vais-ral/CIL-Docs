@@ -6,8 +6,8 @@ Beam Hardening Correction (CarouselFit):
 
 Abstract
 #########
-This document is a brief user guide to the Python software package CarouselFit. This software takes image
-data from a number of known samples, e.g. from an X-ray CT machine, and fits them to a model of
+This document is a brief user guide to the Python software package CarouselFit. This software takes
+X-ray image data for a number of known samples, and fits them to a model of
 the beam hardening process which occurs when a broad spectrum source is used to image a sample.
 This model can then be used to generate corrections appropriate for a single material to convert
 the observed attenuation values into the actual attenuation that would be observed for that material
@@ -18,6 +18,27 @@ This software is based on the IDL package and ideas described in [DEM13]_.
 Introduction
 #############
 Beam hardening is well known problem that is described in many works, see [DEM13]_.
+Lab based X-ray Computational Tomography (CT) machines use X-ray tubes as their source of
+radiation. The voltage to the tube can be varied to control the maximum X-ray energy generated,
+but the actual output is composed of the broad spectrum Bremsstrahlung component and characteristic peaks.
+The X-ray attenuation of materials (in general) decreases as the energy increases. This means that as
+a broad spectrum beam passes through a target the low energy X-rays will be absorbed first leaving a beam
+that has increasing mean energy. It is this effective hardening of the beam that means that a plot of the
+log of the attenuation against material thickness is not linear, as would be the case if a monochromatic
+X-ray source was used. Since CT reconstruction algorithms assume that this linear relationship holds
+artifacts are generated in the final image due to the beam hardening.
+
+To reduce beam hardening artifacts it is usual to pre-filter the X-ray beam with the built-in filters
+available on CT machines. While this does reduce the problem, it can not fully solve it since filtering
+to get close to monochromatic beam would leave such a weak high energy beam as to make imaging impractically
+slow. Hence a compromise has to be made with sufficient filtering to reduce beam hardening effects while
+allowing enough X-rays through to image the sample in reasonable time.
+
+If the energy distribution of the filtered X-ray beam is known, along with the energy dependent attenuation
+of the sample, then it is possible to apply a correction to the measured attenuation so as to remove
+beam hardening artifacts. This can be done using the techniques described in [DEM13]_ which are implemented
+in this software package.
+
 This software takes as input a number of images of well characterised samples and uses these
 to fit a simple model of the expected beam hardening (BH) to the observed data.
 The result is an estimate of the "response function", R(E), which gives the expected output signal
@@ -42,11 +63,18 @@ This allows for compound materials, as long as the composition is constant.
 In the case of samples made of more than one compound the correction curve will only be applicable
 if one material is the dominant absorber and corrections made to that material.
 
+The attenuation correction curve for a material depends on the shape of the energy dependent attenuation
+within the range of X-ray energies that are present after filtering. If two materials have a near
+constant ratio of attenuation in this energy range then their correction curves will be similar.
+However if one has a sharp step in attenuation in this range (a K-edge) while the other does not,
+then correction curves can be very different. This method is designed for samples of a single
+material or where one material is the dominant component.
+
 The next section describes how to download and run the software.
-In section 3 we describe how to set up the necessary files that give
+The following section describes how to set up the necessary files that give
 information on the number and type of test images that are used for calibration and the
 image formats.
-Section 4 details how to the run the fitting and post-processing image modules of the software.
+Details are then given on how to the run the fitting and post-processing image modules of the software.
 The first of these fits the model to the data while the second applies the correction
 directly to the CT image data.
 An alternative to processing all the images is to generates a look-up table or a 4th order polynomial
@@ -58,12 +86,14 @@ Downloading and running the software
 ####################################
 Installing the binary
 **********************
-If you have a Python distribution from Continuum(Anaconda https://www.continuum.io/downloads) then you can install the binary package CCPi Anaconda channel (https://anaconda.org/ccpi/). Please follow the instructions below,
+If you have a Python distribution from Continuum(Anaconda https://www.continuum.io/downloads) then you can install the binary package from the CCPi Anaconda channel (https://anaconda.org/ccpi/). To do so on Windows, issue the following command in
+an anaconda command prompt:
 
 .. code-block:: shell
 
    conda install -c ccpi ccpi-preprocessing
    
+On Linux systems the same command can be used at a terminal prompt if conda is in your PATH.
 This will provide the executables for running the CarouselFit.
 
 .. code-block:: shell
@@ -79,7 +109,7 @@ beams and the material attenuation.
 As well as a Python environment the software depends on a number of additional packages being available.
 An easy way to access most of the required packages is to download the Anaconda Python environment which is
 available for Linux, MacOS and Windows systems from https://www.continuum.io/downloads.
-The software has been developed using Python version 2.7.
+The software has been developed using Python version 2.7, though it should also run with Python 3 as well.
 It is recommended that the user installs this before installing the CarouselFit software.
 Alternatively the user may install the required packages in their local Python installation, if they are not
 already available.
@@ -88,7 +118,7 @@ The main Python modules that may need to be added to a local installation are:
 * numpy - needed for array operations
 * matplotlib - needed for plotting
 * scipy - needed for optimization
-* tifffile - only needed if corrections are to be applied to tiff images
+* tifffile - needed fow working with tiff images
 
 
 The CarouselFit software can be checked out to a suitable directory using the command ::
@@ -103,7 +133,8 @@ This will create a set of three directories under **carouselFit**:
 
 After downloading the software the installation can be checked by running Python in the \texttt{test} directory
 and reading the example script file.
-On Linux and MacOS this could be done from a command prompt, assuming that a suitable version of Python is in the system PATH by typing:
+On Linux and MacOS this could be done from a command prompt, assuming that a suitable version
+of Python is in the system PATH by typing:
 ::
 
   python ../src/runCarouselFit.py
@@ -125,7 +156,7 @@ On Windows systems Anaconda python can be accessed from the Start Menu after it 
 Configuration files
 ###################
 
-The original calibration device described in [DEM13]_ was called a carousal as it was built from a set of 9 test samples
+The original calibration device described in [DEM13]_ was called a carousel as it was built from a set of 9 test samples
 arranged between two circular supports allowing for each of the samples to be imaged individually by the scanner.
 The samples would cover the full range of lines in the scanner, but not the full range of each row; typically only
 the centre half of each row would be covered by the sample.

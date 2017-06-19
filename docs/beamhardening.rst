@@ -90,8 +90,8 @@ The first of these fits the model to the data while the second applies the corre
 directly to the CT image data.
 An alternative to processing all the images is to generates a look-up table or a 4th order polynomial
 to map observed attenuation values to mono-chromatic attenuation.
-Such data can be used as input to some reconstuction software, such the standard XTek filtered back
-projection package and the CCPi CGLS iterative code.
+Such data can be used as input to some reconstuction software, like the standard XTek filtered back
+projection package and, in future, to the CCPi CGLS iterative code.
 
 Downloading and running the software
 ####################################
@@ -109,6 +109,8 @@ This will provide the executables for running the CarouselFit.
 .. code-block:: shell
 
    CarouselFit
+   
+A set of example data to illustrate use the fitting software can be downloaded from the CIL git repository.
    
 
 Installing from Source
@@ -141,26 +143,55 @@ This will create a set of three directories under **carouselFit**:
 * **doc**: this contains documentation of the software
 * **test**: this contains several sub-directories with information on attenuation and X-ray spectra. The source code must be executed from this directory and any updates to the carousel or crown information should be made in the **carouselData** sub-directory.
 
-After downloading the software the installation can be checked by running Python in the \texttt{test} directory
-and reading the example script file.
-On Linux and MacOS this could be done from a command prompt, assuming that a suitable version
-of Python is in the system PATH by typing:
+
+Running a test case
+***********************
+After downloading the software the installation can be checked by running the software in the test directory
+and reading an example script file.
+
+If the software was obtained from SVN this could be done from a command prompt by typing:
 ::
 
   python ../src/runCarouselFit.py
-  read script.short
+  read script_demo.txt
   quit
+  
+Note that it may be useful to look at the graphs plotted bt this process before using the ``quit`` command,
+since this disappear when the program stops.
+  
+If the conda installation method was used then it would be necessary to unzip the test data into a folder,
+get a command prompt in that folder and type the lines:
+::
+   CarouselFit
+   read script_demo.txt
+   quit
 
 This set of commands should run without generating any error messages, such as failure to import modules.
 If missing modules are reported it will be necessary to add these to the Python system and run the test script again.
 Check the documentation for your Python system to see how to add modules.
 
-On Windows systems Anaconda python can be accessed from the Start Menu after it has been installed. The software can be downloaded using the command line version of svn, e.g. via Cygwin, or using the GUI provided by TortoiseSVN https://tortoisesvn.net/. Once the software is installed, start an **IPython** window (or similar) from the Start Menu and navigate to the **test** directory as mentioned above. Then use the **\%run** command to execute the code, e.g. ::
-
-   cd c:/svnpath/test
-   %run ../src/runCarousel.py
-   read script.short
-   quit
+The file script_demo.txt illustrates a simple fitting using some calibration data obtained from QMUL.
+Lines starting the the # character are comments. The first command in the script loads the files
+that define the test samples, the imaging voltage and the images themselves. These files, which are explained in more
+detail later, are:
+::
+   carousleData/carousel0.def
+   carouselData/run001.data
+   carouselData/run001.img
+   
+The images that are to used in the calibration are shown by the ``showimg`` command. The script then
+sets the material and the X-ray energy to be corrected to with the ``setcormat`` command.
+Then two fits are done, the first allowing for some variation in the fit with the line number in the image.
+The second fit does not allow for this variation and assumes that one correction function can be used for
+all lines. The final fit returns a 4th order polynomial that can be used to correct the reconstruction of
+the image in software such as that used on Xtek machines. The vales of these coefficients are saved in the
+file ``param.log`` in the same folder that the fitting process was run. For this example data the values should
+be:
+::
+   xpoly:
+      0 [ 0.00282561 -0.04733048  0.45413055  0.48893604  0.        ]
+      
+The terms in the square brackets correspond to ``X4,X3,X2,X1,X0`` in the input used to an XTek reconsturction.
 
 
 Configuration files

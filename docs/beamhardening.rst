@@ -159,8 +159,12 @@ If the software was obtained from SVN this could be done from a command prompt b
 Note that it may be useful to look at the graphs plotted bt this process before using the ``quit`` command,
 since these disappear when the program stops.
   
-If the conda installation method was used then it would be necessary to unzip the test data into a folder,
-get a command prompt in that folder and type the lines:
+If the conda installation method was used then it would be necessary to unzip the test data into a folder. The test
+data is available from git hub as:
+::
+    https://github.com/vais-ral/CIL-Docs/blob/master/test/bhctestdata.zip
+    
+When this has been downloaded and unziped, get a command prompt in that folder and type the lines:
 ::
    CarouselFit
    read script_demo.txt

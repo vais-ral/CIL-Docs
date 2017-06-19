@@ -313,7 +313,7 @@ It is basically it! You can run the following script that will do the segmentati
     ###############################################################################
 
 
- 
+.. image:: ../pics/Segmentation_Figure_1.png
 
 .. [Carr2003] Carr, H., Snoeyink, J., & Axen, U. (2003). Computing contour trees in all dimensions.
               Computational Geometry: Theory and Applications, 

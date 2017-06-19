@@ -366,11 +366,50 @@ The commands are:
 Using the software
 *******************
 
-As described in section 3 it is necessary to write the definition files that describe the carousel and the particular
-test case that is being treated.
+As described previously it is necessary to write the definition files that describe the carousel or crown 
+and the particular test case that is being treated.
 The latter file must also point to the data file that contains the sample images in a suitable format.
 It is assumed that corrections for dark and flat field images have being applied to the images before they are
 passed to the software.
+The way in which these are generated will vary with the X-ray CT machine used to gather the images.
+For the case of an XTek machine an example python script has been written to illustrate one way in which
+suitable calibration data can be obtained from the images of the test samples.
+This file is called ``average_mat.py`` and can be found in the ``src`` directory from the svn checkout.
+It can be run from the command line in the same way as the fitting program:
+
+.. code-block:: console
+    python ../src/average_mat.py dir_list.txt images.raw
+    
+The program requires an input file ``dir_list.txt`` which contains an ordered list of directories with
+images of the dark and flat field and projections of the samples.
+Current practise is to take 11 separate projections of each of the dark field, the flat field and every sample
+in the crown. Each file is a 16 bit unsigned image in tiff format. Thus the first directory will have 11 tiff
+images of the dark field, and so on.
+The ``dis_list.txt`` might then be:
+
+.. code-block:: console
+    c:\Images\crown01\darkfield
+    c:\Images\crown01\flatfield
+    c:\Images\crown01\Al0.1
+    c:\Images\crown01\Al0.5
+    ....
+    
+ Each directory contains a number of tiff images which are averaged over and then used to calculate
+ the normalised attenuation image for each material sample in the crown. This data is then
+ written as the raw file ``images.raw``. This can be copied to the carouselData directory and
+ used as input to a fit run. The first two directories are assumed to be the dark and flat fields
+ while the rest are the materials in the crown, the first ones in this case are aluminium at 0.1mm
+ and 0.5mm. The order of the samples in this list must follow the order that is written in the ``.def``
+ file describing the samples.
+ The format of the output produced by this script must be given as ``uint64_65535`` in the ``.data``
+ file.
+ 
+ The ``average_mat.py`` script also allows selection of a sub-region of the image. This can be
+ useful if just doing a fit to a certain region of the image. Four extra parameters can be given
+ for the minimum and maximum points to output. This reduced image size then needs to be set in the
+ configurtion file to describe the data.
+ 
+
 A simple partial analysis might consist of the following steps:
 
 .. code-block:: console

@@ -57,7 +57,7 @@ def load_data(filename):
     darks = [stack[i] for i in range(len(itype)) if itype[i] == 2 ]
     dark = darks[0]
     for i in range(1, len(darks)):
-    dark += darks[i]
+        dark += darks[i]
     dark = dark / len(darks)
     #dark[0][0] = dark[0][1]
 
@@ -65,7 +65,7 @@ def load_data(filename):
     flats = [stack[i] for i in range(len(itype)) if itype[i] == 1 ]
     flat = flats[0]
     for i in range(1, len(flats)):
-    flat += flats[i]
+        flat += flats[i]
     flat = flat / len(flats)
     #flat[0][0] = dark[0][1]
 
@@ -78,12 +78,12 @@ def load_data(filename):
 
 
     def normalize(projection, dark, flat, def_val=0.1):
-    a = (projection - dark)
-    b = (flat-dark)
-    with numpy.errstate(divide='ignore', invalid='ignore'):
-        c = numpy.true_divide( a, b )
-        c[ ~ numpy.isfinite( c )] = def_val  # set to not zero if 0/0 
-    return c
+        a = (projection - dark)
+        b = (flat-dark)
+        with numpy.errstate(divide='ignore', invalid='ignore'):
+            c = numpy.true_divide( a, b )
+            c[ ~ numpy.isfinite( c )] = def_val  # set to not zero if 0/0 
+        return c
 
 
     norm = [normalize(projection, dark, flat) for projection in proj]

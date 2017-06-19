@@ -142,7 +142,7 @@ Data retrieval is fairly simple. One should just know what the algorithm outputs
     # running from sorted_isosurface[i][0] to sorted_isosurface[i][1] one finds
     # all the triangles in one isosurface
   
-It is basically it! You can run the following script that will do the segmentation and show something on screen.
+That is basically it! You can run the following script that will do the segmentation and show something on screen.
 
 
 .. code-block:: python

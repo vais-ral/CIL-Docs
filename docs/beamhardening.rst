@@ -328,7 +328,7 @@ Typing **help** will give a list of the available commands.
 
 The commands are:
 
-* **read** *filename* This command opens the given file and reads commands from it until end of file. Control is then returned to the command line. Do not include blank lines in the command script.
+* **read** *filename* This command opens the given file and reads commands from it until end of file. Control is then returned to the command line. Comment lines start with #. Do not include blank lines in the command script.
 
 * **load** *file.def* *file.data* This reads the definition file for the carousel and the data relating to the actual calibration images. These two files must exist and are described in the previous section. they are normally located in the **test/carouselData** directory. This is usually the first command to issue since most others need this data to be present.
 

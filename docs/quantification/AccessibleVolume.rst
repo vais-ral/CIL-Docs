@@ -65,5 +65,13 @@ To run the example code you need to download the following files :download:`Inpu
    
    data.close()
    mask.close() 
-   
+
+Input Volume
+
+.. image:: ../../test/Data128.tif    
+
+Mask Volume
+
+.. image:: ../../test/DataMask128.tif
+
 .. image:: ../../pics/AccessibleVolume.jpg   

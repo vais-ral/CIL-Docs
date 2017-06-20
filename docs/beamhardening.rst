@@ -370,6 +370,9 @@ The commands are:
 Using the software
 *******************
 
+Getting the image file
+----------------------
+
 As described previously it is necessary to write the definition files that describe the carousel or crown 
 and the particular test case that is being treated.
 The latter file must also point to the data file that contains the sample images in a suitable format.
@@ -389,54 +392,64 @@ images of the dark and flat field and projections of the samples.
 Current practise is to take 11 separate projections of each of the dark field, the flat field and every sample
 in the crown. Each file is a 16 bit unsigned image in tiff format. Thus the first directory will have 11 tiff
 images of the dark field, and so on.
-The ``dis_list.txt`` might then be:
+If there are only three test samples (typically there would be more) then ``dis_list.txt`` might be:
 
 .. code-block:: console
-    c:\Images\crown01\darkfield
-    c:\Images\crown01\flatfield
-    c:\Images\crown01\Al0.1
-    c:\Images\crown01\Al0.5
-    ....
-    
- Each directory contains a number of tiff images which are averaged over and then used to calculate
- the normalised attenuation image for each material sample in the crown. This data is then
- written as the raw file ``images.raw``. This can be copied to the carouselData directory and
- used as input to a fit run. The first two directories are assumed to be the dark and flat fields
- while the rest are the materials in the crown, the first ones in this case are aluminium at 0.1mm
- and 0.5mm. The order of the samples in this list must follow the order that is written in the ``.def``
- file describing the samples.
- The format of the output produced by this script must be given as ``uint64_65535`` in the ``.data``
- file.
- 
- The ``average_mat.py`` script also allows selection of a sub-region of the image. This can be
- useful if just doing a fit to a certain region of the image. Four extra parameters can be given
- for the minimum and maximum points to output. This reduced image size then needs to be set in the
- configurtion file to describe the data.
- 
+    c:/Images/crown01/darkfield
+    c:/Images/crown01/flatfield
+    c:/Images/crown01/Al0.1
+    c:/Images/crown01/Al0.5
+    c:/Images/crown01/Al2.0
 
-A simple partial analysis might consist of the following steps:
+
+Each directory contains a number of tiff images which are averaged over and then used to calculate
+the normalised attenuation image for each material sample in the crown. This data is then
+written as the raw file ``images.raw``. This can be copied to the carouselData directory and
+used as input to a fit run. The first two directories are assumed to be the dark and flat fields
+while the rest are the materials in the crown, the first ones in this case are aluminium at 0.1mm
+and 0.5mm. The order of the samples in this list must follow the order that is written in the ``.def``
+file describing the samples.
+The format of the output produced by this script must be given as ``uint64_65535`` in the ``.data``
+file.
+ 
+The ``average_mat.py`` script also allows selection of a sub-region of the image. This can be
+useful if just doing a fit to a certain region of the image. Four extra parameters can be given
+for the minimum and maximum points to output. This reduced image size then needs to be set in the
+configurtion file to describe the data.
+ 
+Running the fitting process
+---------------------------
+
+Once the sample image file has been produced and the two data files describing the test samples
+and the X-ray conditions written, then the ``CarouselFit`` program can be run. This is a
+command line program and the user can either type the commands at the prompt or read then from a
+previously prepared file.
+
+A simple partial analysis might consist of the following steps which loads the information
+about the run and displays the images:
 
 .. code-block:: console
 
     load carouselData/carousel0.def carouselData/run001.data
-
     showimg
     showatt
 
 
-The first command loads the definition and run data from files, while the next two commands
-plot the 2D images and 1D cuts along line=400.
+When the program reads the image data and the sample descriptions from the files, it performs a basic
+check to see that the observed attenuation is consistent with the stated voltage and thickness. This
+helps to catch simple unit errors, or mistakes in the sample order.
+The following commands can then generate a fit to the supplied sample data: 
 
 .. code-block:: console
 
     setcormat CaHydro 40
 
-    vary target 1
-    vary detector 0
-    vary filter 1
+    vary target 0
+    vary detector -1
+    vary filter 0
 
     initguess .01 -6 .01
-    fitatt 800 10
+    fitatt 800 20
 
     showspec
     showcor
@@ -445,7 +458,9 @@ These commands then set the material and energy to which we wish to correct the 
 command, and then alter the default orders of the fit variables.
 The **fitatt** command fits the given initial guess using the lines of the image data, 800, but only every
 10th line.
-This fit may take 60 seconds. Finally the fitted spectrum and correction curves are plotted.
+This fit may take around a minute to run. Finally the fitted spectrum and correction curve is plotted.
+Note that in this case there is no variation of the fit with line number so only a single correction
+curve will be generated.
 
 The correction curves are stored in the same format as used in the earlier IDL code as separate 8th order polynomial
 fits to the correction data in a file called polyfit.npz.

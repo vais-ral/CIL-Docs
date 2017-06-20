@@ -373,8 +373,8 @@ Using the software
 Getting the image file
 ----------------------
 
-As described previously it is necessary to write the definition files that describe the carousel or crown 
-and the particular test case that is being treated.
+As stated previously it is necessary to write the definition file (.def) that describes the carousel or crown 
+and the particular test case that is being treated (.data).
 The latter file must also point to the data file that contains the sample images in a suitable format.
 It is assumed that corrections for dark and flat field images have being applied to the images before they are
 passed to the software.
@@ -382,7 +382,8 @@ The way in which these are generated will vary with the X-ray CT machine used to
 For the case of an XTek machine an example python script has been written to illustrate one way in which
 suitable calibration data can be obtained from the images of the test samples.
 This file is called ``average_mat.py`` and can be found in the ``src`` directory from the svn checkout.
-It can be run from the command line in the same way as the fitting program:
+It can be run from the command line, in a similar manner to the fitting program, though it is not interactive.
+It takes a number of arguments, such as:
 
 .. code-block:: console
 
@@ -408,7 +409,7 @@ Each directory contains a number of tiff images which are averaged over and then
 the normalised attenuation image for each material sample in the crown. This data is then
 written as the raw file ``images.raw``. This can be copied to the carouselData directory and
 used as input to a fit run. The first two directories are assumed to be the dark and flat fields
-while the rest are the materials in the crown, the first ones in this case are aluminium at 0.1mm
+while the rest are the materials in the crown, in this case are aluminium at 0.1mm, 0.2mm
 and 0.5mm. The order of the samples in this list must follow the order that is written in the ``.def``
 file describing the samples.
 The format of the output produced by this script must be given as ``uint64_65535`` in the ``.data``
@@ -458,8 +459,8 @@ The following commands can then generate a fit to the supplied sample data:
 
 These commands then set the material and energy to which we wish to correct the data via the **setcormat**
 command, and then alter the default orders of the fit variables.
-The **fitatt** command fits the given initial guess using the lines of the image data, 800, but only every
-10th line.
+The **fitatt** command fits the given initial guess across all the lines of the image data (800)
+but only using every 10th line, which is adequate in most cases.
 This fit may take around a minute to run. Finally the fitted spectrum and correction curve is plotted.
 Note that in this case there is no variation of the fit with line number so only a single correction
 curve will be generated.

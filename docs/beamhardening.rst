@@ -385,6 +385,7 @@ This file is called ``average_mat.py`` and can be found in the ``src`` directory
 It can be run from the command line in the same way as the fitting program:
 
 .. code-block:: console
+
     python ../src/average_mat.py dir_list.txt images.raw
     
 The program requires an input file ``dir_list.txt`` which contains an ordered list of directories with
@@ -395,6 +396,7 @@ images of the dark field, and so on.
 If there are only three test samples (typically there would be more) then ``dis_list.txt`` might be:
 
 .. code-block:: console
+
     c:/Images/crown01/darkfield
     c:/Images/crown01/flatfield
     c:/Images/crown01/Al0.1

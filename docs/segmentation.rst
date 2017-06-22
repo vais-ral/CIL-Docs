@@ -46,7 +46,7 @@ To explain how to use it let us go through an example. In the example we will us
 
 First of all, we start with the proper imports:
 :: 
-    from ccpi import SimpleflexSegmentor
+    from ccpi.segmentation.SimpleflexSegmentor import SimpleflexSegmentor
     import numpy
     import vtk
     from vtk.util import numpy_support
@@ -139,7 +139,7 @@ That is basically it! You can run the following script that will do the segmenta
     #   See the License for the specific language governing permissions and
     #   limitations under the License.
 
-    from ccpi import SimpleflexSegmentor
+    from ccpi.segmentation.SimpleflexSegmentor import SimpleflexSegmentor
     import numpy
     import vtk
     from vtk.util import numpy_support
@@ -272,7 +272,7 @@ That is basically it! You can run the following script that will do the segmenta
     ###############################################################################
 
 
-.. image:: ../pics/Segmentation_Figure_1.png
+.. image:: ../pics/Segmentation_Figure_2.png
 
 .. [Carr2003] Carr, H., Snoeyink, J., & Axen, U. (2003). Computing contour trees in all dimensions.
               Computational Geometry: Theory and Applications, 

@@ -233,24 +233,23 @@ That is basically it! You can run the following script that will do the segmenta
     for surf in surf_list:
         print("Image-to-world coordinate trasformation ... %d" % surface)
         for point in surf:
-	        world_coord = numpy.dot(mTransform, point)
-	        xCoord = world_coord[0]
-	        yCoord = world_coord[1]
-	        zCoord = world_coord[2]
-	        triangle_vertices.InsertNextPoint(xCoord, yCoord, zCoord);
+            world_coord = numpy.dot(mTransform, point)
+            xCoord = world_coord[0]
+            yCoord = world_coord[1]
+            zCoord = world_coord[2]
+            triangle_vertices.InsertNextPoint(xCoord, yCoord, zCoord);
 
 
-	        # The id of the vertex of the triangle (0,1,2) is linked to
-	        # the id of the points in the list, so in facts we just link id-to-id
-	        triangle.GetPointIds().SetId(isTriangle, point_count)
-	        isTriangle += 1
-	        point_count += 1
+            # The id of the vertex of the triangle (0,1,2) is linked to
+            # the id of the points in the list, so in facts we just link id-to-id
+            triangle.GetPointIds().SetId(isTriangle, point_count)
+            isTriangle += 1
+            point_count += 1
 
-	        if (isTriangle == 3) :
-	            isTriangle = 0;
-	            # insert the current triangle in the triangles array
-	    	    triangles.InsertNextCell(triangle);
-
+            if (isTriangle == 3) :
+                isTriangle = 0;
+                # insert the current triangle in the triangles array
+        	    triangles.InsertNextCell(triangle);
 
         surface += 1
 

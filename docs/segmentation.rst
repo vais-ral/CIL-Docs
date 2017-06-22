@@ -150,21 +150,21 @@ That is basically it! You can run the following script that will do the segmenta
     from CILViewer import CILViewer
 
     def readAs3DNumpyArray(filename):
-	    reader = vtk.vtkVolume16Reader()
-	    reader.SetDataDimensions (64,64)
-	    reader.SetImageRange(1,93)
-	    reader.SetDataByteOrderToLittleEndian()
-	    reader.SetFilePrefix(filename)
-	    reader.SetDataSpacing (3.2, 3.2, 1.5)
-	    reader.Update()
-	    # transform the VTK data to 3D numpy array
-	    img_data = numpy_support.vtk_to_numpy(
-	    	reader.GetOutput().GetPointData().GetScalars())
-			
-	    data3d = numpy.reshape(img_data, reader.GetOutput().GetDimensions())
-	    return (data3d , reader)
-
-    # 1. create a segmentor object
+        reader = vtk.vtkVolume16Reader()
+        reader.SetDataDimensions (64,64)
+        reader.SetImageRange(1,93)
+        reader.SetDataByteOrderToLittleEndian()
+        reader.SetFilePrefix(filename)
+        reader.SetDataSpacing (3.2, 3.2, 1.5)
+        reader.Update()
+        # transform the VTK data to 3D numpy array
+        img_data = numpy_support.vtk_to_numpy(
+        	reader.GetOutput().GetPointData().GetScalars())
+    		
+        data3d = numpy.reshape(img_data, reader.GetOutput().GetDimensions())
+        return (data3d , reader)
+    
+	# 1. create a segmentor object
     segmentor = SimpleflexSegmentor()
 
     # 2. Pass data into the segmentor

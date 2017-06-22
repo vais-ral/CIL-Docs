@@ -105,42 +105,15 @@ The only thing to specify to the algorithm is the target isovalue:
 Retrieve the data
 .................
 
-Data retrieval is fairly simple. One should just know what the algorithm outputs:
+To retrieve the calculated isosurfaces one has to invoke the getSurfaces method which returns the list of isosurfaces a numpy array. To explain
+how the data are organized in the array, let's first consider that a surface is made of triangles in space, which in turn
+are identified by 3 points in space, which are identified by 3 spatial coordinates: 
 
-- a list of coordinates of all the points that make up the isosurface. 3 coordinates identify 1 point in a 3D space
-- a list of tuples containing the start index, end index and total number of points in one specific iso-surface. The start/end are indices for the list of coordinates. This list is sorted from largest to smallest surface. For instance, the second largest surface will be the second element of the list of tuples.
+- point = array([coordX, coordY, coordZ, 1])
+- surface = array([point_0, point_1, point_2,... ]
+- listOfIsosurfaces = array([surface_0, surface_1, surface_2,...])
 
-.. code-block:: python
-
-    # 6. Retrieve the isosurfaces
-    coord_list = segmentor.getTrianglePoints()
-    sorted_isosurface = segmentor.getSurfaces()
- 
-    ## Example: the points of the second largest (index 1) iso-surface are found as
-    coord_list[sorted_isosurface[1][0]] # the first (Z) coordinate
-    coord_list[sorted_isosurface[1][1]] # the last (X) coordinate
- 
-    # the image coordinates of the first point in 3D of this iso-surface are
-    point_a = tuple(
-       coord_list[sorted_isosurface[1][0]],
-       coord_list[sorted_isosurface[1][0]+1],
-       coord_list[sorted_isosurface[1][0]+2]
-    )
-
-    # the first triangle will be identified by 3 consecutive points: point_a, point_b, point_c
-    point_b = tuple(
-       coord_list[sorted_isosurface[1][0]+3],
-       coord_list[sorted_isosurface[1][0]+4],
-       coord_list[sorted_isosurface[1][0]+5]
-    )
-    point_c = tuple(
-       coord_list[sorted_isosurface[1][0]+6],
-       coord_list[sorted_isosurface[1][0]+7],
-       coord_list[sorted_isosurface[1][0]+8]
-    )
-
-    # running from sorted_isosurface[i][0] to sorted_isosurface[i][1] one finds
-    # all the triangles in one isosurface
+This list is sorted from largest to smallest surface. For instance, the second largest surface will be the second element of the array.
   
 That is basically it! You can run the following script that will do the segmentation and show something on screen.
 
@@ -216,87 +189,73 @@ That is basically it! You can run the following script that will do the segmenta
     segmentor.constructIsoSurfaces()
 
     # 6. Retrieve the isosurfaces and display
-    coord_list = segmentor.getTrianglePoints()
-    sorted_isosurface = segmentor.getSurfaces()
+	surf_list = segmentor.getSurfaces()
+
+	########################################################################
+	# 7. Display
+	# with the retrieved data we construct polydata actors to be displayed
+	# with VTK. Notice that this part is VTK specific. However, it shows how to 
+	# process the data returned by the algorithm.
+
+	# Create the VTK output
+	# Points coordinates structure
+	triangle_vertices = vtk.vtkPoints()
+	#associate the points to triangles
+	triangle = vtk.vtkTriangle()
+	# put all triangles in an array
+	triangles = vtk.vtkCellArray()
+	isTriangle = 0
+	nTriangle = 0
+
+	surface = 0
+	# associate each coordinate with a point: 3 coordinates are needed for a point
+	# in 3D. Additionally we perform a shift from image coordinates (pixel) which
+	# is the default of the Contour Tree Algorithm to the World Coordinates.
+
+	origin = reader.GetOutput().GetOrigin()
+	spacing = reader.GetOutput().GetSpacing()
+	
+	# augmented matrix for affine transformations
+	mScaling = numpy.asarray([spacing[0], 0,0,0,
+							  0,spacing[1],0,0,
+							  0,0,spacing[2],0,
+							  0,0,0,1]).reshape((4,4))
+	mShift = numpy.asarray([1,0,0,origin[0],
+							0,1,0,origin[1],
+							0,0,1,origin[2],
+							0,0,0,1]).reshape((4,4))
+
+	mTransform = numpy.dot(mScaling, mShift)
+	point_count = 0
+	for surf in surf_list:
+		print("Image-to-world coordinate trasformation ... %d" % surface)
+		for point in surf:
+		
+			world_coord = numpy.dot(mTransform, point)
+			xCoord = world_coord[0]
+			yCoord = world_coord[1]
+			zCoord = world_coord[2]
+			triangle_vertices.InsertNextPoint(xCoord, yCoord, zCoord);
 
 
-    ########################################################################
-    # 7. Display
-    # with the retrieved data we construct polydata actors to be displayed
-    # with VTK. Notice that this part is VTK specific. However, it shows how to 
-    # process the data returned by the algorithm.
+			# The id of the vertex of the triangle (0,1,2) is linked to
+			# the id of the points in the list, so in facts we just link id-to-id
+			triangle.GetPointIds().SetId(isTriangle, point_count)
+			isTriangle += 1
+			point_count += 1
 
-    # Create the VTK output
-    # Points coordinates structure
-    triangle_vertices = vtk.vtkPoints()
-    #associate the points to triangles
-    triangle = vtk.vtkTriangle()
-    # put all triangles in an array
-    triangles = vtk.vtkCellArray()
-    isTriangle = 0
-    nTriangle = 0
-
-    surface = 0
-    # associate each coordinate with a point: 3 coordinates are needed for a point
-    # in 3D. Additionally we perform a shift from image coordinates (pixel) which
-    # is the default of the Contour Tree Algorithm to the World Coordinates.
-    # TODO: add this in the algorithm.
-    origin = reader.GetOutput().GetOrigin()
-    spacing = reader.GetOutput().GetSpacing()
-    axisOrder = [2,1,0]
-
-    mScaling = numpy.asarray([spacing[0], 0,0,0,
-                              0,spacing[1],0,0,
-                              0,0,spacing[2],0,
-                              0,0,0,1]).reshape((4,4))
-    mShift = numpy.asarray([1,0,0,origin[0],
-                            0,1,0,origin[1],
-                            0,0,1,origin[2],
-                            0,0,0,1]).reshape((4,4))
-
-    mTransform = numpy.dot(mScaling, mShift)
-    point_count = 0
-    for t in sorted_isosurface:
-        print("Image-to-world coordinate trasformation ... %d" % surface)
-        begin = t[0];
-        end = t[1];
-        i = begin
-
-        while i < end :
-            # The spacing is the height, length, and width of a voxel or
-            # the distance between neighboring pixels,
-            # vector of coordinates
-            x = numpy.asarray((coord_list[i + segmentor.axisOrder[0]],
-                               coord_list[i + segmentor.axisOrder[1]],
-                               coord_list[i + segmentor.axisOrder[2]],
-                               1))
-            world_coord = numpy.dot(mTransform, x)
-            xCoord = world_coord[0]
-            yCoord = world_coord[1]
-            zCoord = world_coord[2]
-            i += 3
-            triangle_vertices.InsertNextPoint(xCoord, yCoord, zCoord);
+			if (isTriangle == 3) :
+					isTriangle = 0;
+					# insert the current triangle in the triangles array
+					triangles.InsertNextCell(triangle);
 
 
-            # The id of the vertex of the triangle (0,1,2) is linked to
-            # the id of the points in the list, so in facts we just link id-to-id
-            triangle.GetPointIds().SetId(isTriangle, point_count)
-            isTriangle += 1
-            point_count += 1
+		surface += 1
 
-            if (isTriangle == 3) :
-                    isTriangle = 0;
-                    # insert the current triangle in the triangles array
-                    triangles.InsertNextCell(triangle);
-
-
-        surface += 1
-
-    # polydata object
-    trianglePolyData = vtk.vtkPolyData()
-    trianglePolyData.SetPoints( triangle_vertices )
-    trianglePolyData.SetPolys(  triangles  )
-
+	# polydata object
+	trianglePolyData = vtk.vtkPolyData()
+	trianglePolyData.SetPoints( triangle_vertices )
+	trianglePolyData.SetPolys(  triangles  )
 
 
     ###############################################################################

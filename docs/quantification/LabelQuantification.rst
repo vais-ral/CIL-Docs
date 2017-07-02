@@ -46,6 +46,10 @@ Example
 
 To run the example code you need to download the following data file: :download:`Foam Data <../../test/FoamData.tif>`
 
+To run the below code you need to install the following packages:
+
+   * tifffile ( conda install -c conda-forge tifffile )
+   
 .. code-block:: python
   
     # Imports
@@ -55,7 +59,7 @@ To run the example code you need to download the following data file: :download:
     from tifffile import TiffFile        
 	
 	#Read the input volume which is labelled during segmentation
-    img = TiffFile('test/FoamData.tif')        
+    img = TiffFile('FoamData.tif')        
     data = img.asarray()
 	
 	#voxel size
@@ -72,5 +76,8 @@ To run the example code you need to download the following data file: :download:
 	
     print(output)
     img.close()
-	
+
+
+.. image:: ../../test/FoamData.tif   
+
 .. image:: ../../pics/LabelQuantification.jpg   	

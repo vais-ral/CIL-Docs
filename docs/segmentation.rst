@@ -42,7 +42,13 @@ The Python wrapper for the CIL uses numpy arrays as medium to pass data to and f
 
 The algorithm outputs numpy arrays.
 
-To explain how to use it let us go through an example. In the example we will use the viewer that can be downloaded `here <https://github.com/vais-ral/CILViewer>`_. The data we will be using is from `VTKData <https://github.com/naucoin/VTKData/tree/master/Data/headsq>`_. 
+To explain how to use it let us go through an example. In the example we will use the viewer that can be installed as follows.
+
+::
+
+    conda install -c ccpi -c conda-forge ccpi-viewer numpy=1.12
+
+The data we will be using is from `VTKData <https://github.com/naucoin/VTKData/tree/master/Data/headsq>`_. 
 
 First of all, we start with the proper imports:
 :: 

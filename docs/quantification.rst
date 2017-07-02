@@ -8,7 +8,7 @@ CCPi Quantification codes are only available as binary distribution. Anaconda di
 
 .. code-block:: shell
 
-   conda install -c ccpi ccpi-quantification -c conda-forge
+   conda install -c ccpi -c conda-forge ccpi-quantification numpy=1.12
 
 
 Algortihms

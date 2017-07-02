@@ -41,7 +41,7 @@ To run the example code you need to download the following files :download:`Inpu
 
 To run the below code you need to install the following packages:
 
-   * tifffile
+   * tifffile ( conda install -c conda-forge tifffile )
    
    
 .. code-block:: python

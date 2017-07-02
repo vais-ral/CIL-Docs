@@ -9,7 +9,7 @@ CCPi Reconstruction codes are only available as binary distribution. Anaconda di
 
 ::
 
- conda install -c ccpi ccpi-reconstruction -c conda-forge
+ conda install -c ccpi -c conda-forge ccpi-reconstruction numpy=1.12
 
 
 

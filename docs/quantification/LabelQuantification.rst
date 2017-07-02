@@ -78,6 +78,6 @@ To run the below code you need to install the following packages:
     img.close()
 
 
-.. image:: ../../test/FoamData.tif   
+.. image:: ../../pics/FoamData.png   
 
 .. image:: ../../pics/LabelQuantification.jpg   	

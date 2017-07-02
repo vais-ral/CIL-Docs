@@ -57,7 +57,7 @@ First of all, we start with the proper imports:
     import numpy
     import vtk
     from vtk.util import numpy_support
-    from CILViewer import CILViewer
+    from ccpi.viewer.CILViewer import CILViewer
     
 
 The Create a Segmentor and pass data

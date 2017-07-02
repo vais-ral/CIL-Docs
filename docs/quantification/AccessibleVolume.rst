@@ -46,9 +46,9 @@ To run the example code you need to download the following files :download:`Inpu
    import math
    from tifffile import TiffFile    
    #input 3d data volume, has to be binary volume.
-   data = TiffFile('test/Data128.tif')
+   data = TiffFile('Data128.tif')
    #input 3d mask
-   mask = TiffFile('test/DataMask128.tif')
+   mask = TiffFile('DataMask128.tif')
    #voxel size
    voxel_size = np.ones(3,dtype=float)
    #voxel origin
@@ -68,10 +68,10 @@ To run the example code you need to download the following files :download:`Inpu
 
 Input Volume
 
-.. image:: ../../test/Data128.tif    
+.. image:: ../../pics/Data128.png   
 
 Mask Volume
 
-.. image:: ../../test/DataMask128.tif
+.. image:: ../../pics/DataMask128.png
 
 .. image:: ../../pics/AccessibleVolume.jpg   

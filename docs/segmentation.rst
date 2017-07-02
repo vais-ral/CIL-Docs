@@ -147,7 +147,7 @@ That is basically it! You can run the following script that will do the segmenta
     import vtk
     from vtk.util import numpy_support
 
-    from CILViewer import CILViewer
+    from ccpi.viewer.CILViewer import CILViewer
 
     def readAs3DNumpyArray(filename):
         reader = vtk.vtkVolume16Reader()
@@ -169,7 +169,8 @@ That is basically it! You can run the following script that will do the segmenta
 
     # 2. Pass data into the segmentor
     # load data with vtk
-    filename = "C:\\Users\\ofn77899\\Documents\\GitHub\\VTKData\\Data\\headsq\\quarter"
+    # :::NOTE::: please change the file path
+    filename = "<Path to VTKData>\\VTKData\\Data\\headsq\\quarter"
 
     # read the data as 3D numpy array
     data3d , reader = readAs3DNumpyArray(filename)

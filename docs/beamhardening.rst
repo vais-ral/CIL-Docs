@@ -102,7 +102,7 @@ a command prompt:
 
 .. code-block:: shell
 
-   conda install -c ccpi ccpi-preprocessing
+   conda install -c ccpi -c conda-forge ccpi-preprocessing numpy=1.12
    
 This will provide the executables for running the CarouselFit.
 

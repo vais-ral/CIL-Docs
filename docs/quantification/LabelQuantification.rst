@@ -65,7 +65,7 @@ To run the below code you need to install the following packages:
 	#voxel size
     voxel_size = np.ones(3,dtype=float)
 	#origin
-    origin = np.zeros(3,dtype=int)
+    origin = np.zeros(3,dtype=np.int32)
 	
 	#computes the 3d quantification
     lqs = LabelQuantificationUShort(data, origin, voxel_size, float(np.amin(data)), float(np.amax(data)), 100.0)

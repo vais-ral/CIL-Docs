@@ -28,7 +28,7 @@ image-to-world transformation.
 Installation
 ------------
 
-A binary installation is available from the ccpi conda channel:
+A binary installation is available from the ccpi conda channel. NOTE This module is not available with Anaconda Python 2.7 due to C++11 requierments. It can only be used with Anaconda Python 3. Install using:
 
 ::
 

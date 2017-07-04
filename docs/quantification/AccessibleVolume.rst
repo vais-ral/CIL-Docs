@@ -57,7 +57,7 @@ To run the below code you need to install the following packages:
    #voxel size
    voxel_size = np.ones(3,dtype=float)
    #voxel origin
-   origin = np.zeros(3,dtype=int)
+   origin = np.zeros(3,dtype=np.int32)
    #Create an input structure to be passed to the accessible algorithm
    input = AccessibleVolumeInput(voxel_size, origin, data.asarray(), mask.asarray())
    #Invoke the Accessible volume algorithm

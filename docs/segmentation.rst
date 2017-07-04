@@ -73,7 +73,7 @@ The algorithm accepts input as 3D numpy arrays. It will detect the dimensions an
 For historical reasons, the simpleflex algorithm indexes the axis swapping the Z and the X axis and its index is:
 ::
 
-    index = z + y * DimZ + x * DimZ * DimZ
+    index = z + y * DimZ + x * DimZ * DimY
 
 The algorithm is wrapped in a Object oriented fashion, and therefore it needs to be instatiated and passed the data. 
 

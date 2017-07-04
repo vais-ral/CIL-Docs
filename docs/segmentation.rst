@@ -48,10 +48,10 @@ To explain how to use it let us go through an example. In the example we will us
 
     conda install -c ccpi -c conda-forge ccpi-viewer numpy=1.12
 
-The data we will be using is from `VTKData <https://github.com/naucoin/VTKData/tree/master/Data/headsq>`_. 
+The data we will be using is from `VTKData <https://github.com/vais-ral/CIL-Docs/blob/master/data/headsq/headsq.mha>` that has been put into a single MetaImage file. This link points to the original `VTKData <https://github.com/naucoin/VTKData/tree/master/Data/headsq>`_. 
 
 First of all, we start with the proper imports:
-:: 
+:: code-block:: python
     
     from ccpi.segmentation.SimpleflexSegmentor import SimpleflexSegmentor
     import numpy
@@ -64,24 +64,24 @@ The Create a Segmentor and pass data
 ....................................
 
 The algorithm accepts input as 3D numpy arrays. It will detect the dimensions and it will scale the image to an appropriate size (unsigned short or unsigned char). The only thing to pay attention to is the axis order: normally images are stored in contiguous arrays and the index is calculated as :
-::
+:: code-block:: python
 
     index = x + y * DimX + z * DimX * DimY
     
 For historical reasons, the simpleflex algorithm indexes the axis swapping the Z and the X axis and its index is:
-:: 
+:: code-block:: python
 
     index = z + y * DimZ + x * DimZ * DimZ
 
 The algorithm is wrapped in a Object oriented fashion, and therefore it needs to be instatiated and passed the data. 
-::
+:: code-block:: python
     
     # 1. create a segmentor object
     segmentor = SimpleflexSegmentor()
 
     # 2. Load some data and pass data into the algorithm
     # load data with vtk
-    filename = "C:\\Path\\to\\VTKData\\Data\\headsq\\quarter"
+    filename = "C:\\Path\\to\\VTKData\\Data\\headsq\\headsq.mha"
 
     # read the data as 3D numpy array
     data3d , reader = readAs3DNumpyArray(filename)
@@ -97,7 +97,7 @@ Running the segmentation
 ........................
 
 The only thing to specify to the algorithm is the target isovalue:
-::
+:: code-block:: python
     
     # 3. Calculate the Contour Tree
     segmentor.calculateContourTree()
@@ -156,12 +156,8 @@ That is basically it! You can run the following script that will do the segmenta
     from ccpi.viewer.CILViewer import CILViewer
 
     def readAs3DNumpyArray(filename):
-        reader = vtk.vtkVolume16Reader()
-        reader.SetDataDimensions (64,64)
-        reader.SetImageRange(1,93)
-        reader.SetDataByteOrderToLittleEndian()
-        reader.SetFilePrefix(filename)
-        reader.SetDataSpacing (3.2, 3.2, 1.5)
+        reader = vtk.vtkMetaImageReader()
+        reader.SetFileName(filename)
         reader.Update()
         # transform the VTK data to 3D numpy array
         img_data = numpy_support.vtk_to_numpy(
@@ -175,8 +171,8 @@ That is basically it! You can run the following script that will do the segmenta
 
     # 2. Pass data into the segmentor
     # load data with vtk
-    # :::NOTE::: please change the file path
-    filename = "<Path to VTKData>\\VTKData\\Data\\headsq\\quarter"
+   
+    filename = "<Path to VTKData>\\VTKData\\Data\\headsq.mha"
 
     # read the data as 3D numpy array
     data3d , reader = readAs3DNumpyArray(filename)

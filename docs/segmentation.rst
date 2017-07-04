@@ -48,11 +48,12 @@ To explain how to use it let us go through an example. In the example we will us
 
     conda install -c ccpi -c conda-forge ccpi-viewer numpy=1.12
 
-The data we will be using is from `VTKData <https://github.com/vais-ral/CIL-Docs/blob/master/data/headsq/headsq.mha>` that has been put into a single MetaImage file. This link points to the original `VTKData <https://github.com/naucoin/VTKData/tree/master/Data/headsq>`_. 
+The data we will be using is from VTKData and has been put into a `single MetaImage file <https://github.com/vais-ral/CIL-Docs/blob/master/data/headsq/headsq.mha>`_. This link points to the original `VTKData <https://github.com/naucoin/VTKData/tree/master/Data/headsq>`_. 
 
 First of all, we start with the proper imports:
-:: code-block:: python
-    
+
+.. code-block:: python
+
     from ccpi.segmentation.SimpleflexSegmentor import SimpleflexSegmentor
     import numpy
     import vtk
@@ -64,18 +65,21 @@ The Create a Segmentor and pass data
 ....................................
 
 The algorithm accepts input as 3D numpy arrays. It will detect the dimensions and it will scale the image to an appropriate size (unsigned short or unsigned char). The only thing to pay attention to is the axis order: normally images are stored in contiguous arrays and the index is calculated as :
-:: code-block:: python
+
+::
 
     index = x + y * DimX + z * DimX * DimY
     
 For historical reasons, the simpleflex algorithm indexes the axis swapping the Z and the X axis and its index is:
-:: code-block:: python
+::
 
     index = z + y * DimZ + x * DimZ * DimZ
 
 The algorithm is wrapped in a Object oriented fashion, and therefore it needs to be instatiated and passed the data. 
-:: code-block:: python
-    
+
+.. code-block:: python
+
+
     # 1. create a segmentor object
     segmentor = SimpleflexSegmentor()
 
@@ -97,8 +101,10 @@ Running the segmentation
 ........................
 
 The only thing to specify to the algorithm is the target isovalue:
-:: code-block:: python
-    
+
+.. code-block:: python
+
+
     # 3. Calculate the Contour Tree
     segmentor.calculateContourTree()
 

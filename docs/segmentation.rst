@@ -28,11 +28,11 @@ image-to-world transformation.
 Installation
 ------------
 
-A binary installation is available from the ccpi conda channel. NOTE This module is not available with Anaconda Python 2.7 due to C++11 requierments. It can only be used with Anaconda Python 3. Install using:
+A binary installation is available from the ccpi conda channel. It can be installed both for python 2.7 and 3.5. Install using:
 
 ::
 
-    conda install -c ccpi -c conda-forge ccpi-segmentation numpy=1.12
+    conda install -c ccpi -c conda-forge ccpi-segmentation numpy=1.12 --python 2.7
 
 -----
 Usage
@@ -40,7 +40,12 @@ Usage
 The Python wrapper for the CIL uses numpy arrays as medium to pass data to and from each algorithm. 
 3D image data should be passed to the simpleflex algorithm in form of 3D numpy arrays. 
 
-The algorithm outputs numpy arrays.
+The algorithm outputs numpy arrays. There are 2 types of output of the algorithm:
+
+
+- a list of isosurfaces: in practice, for each isosurface the coordinates of points belonging to it
+- for each isosurface, a mask with the voxels at the isosurface labeled.
+
 
 To explain how to use it let us go through an example. In the example we will use the viewer that can be installed as follows.
 
@@ -64,16 +69,7 @@ First of all, we start with the proper imports:
 The Create a Segmentor and pass data
 ....................................
 
-The algorithm accepts input as 3D numpy arrays. It will detect the dimensions and it will scale the image to an appropriate size (unsigned short or unsigned char). The only thing to pay attention to is the axis order: normally images are stored in contiguous arrays and the index is calculated as :
-
-::
-
-    index = x + y * DimX + z * DimX * DimY
-    
-For historical reasons, the simpleflex algorithm indexes the axis swapping the Z and the X axis and its index is:
-::
-
-    index = z + y * DimZ + x * DimZ * DimY
+The algorithm accepts input as 3D numpy arrays. It will detect the dimensions and it will scale the image to an appropriate size (unsigned short or unsigned char). 
 
 The algorithm is wrapped in a Object oriented fashion, and therefore it needs to be instatiated and passed the data. 
 
@@ -90,12 +86,23 @@ The algorithm is wrapped in a Object oriented fashion, and therefore it needs to
     # read the data as 3D numpy array
     data3d , reader = readAs3DNumpyArray(filename)
 
-
-    # VTK images have swapped Z/X axis with respect to the Simpleflex algorithm
-    segmentor.setAxisOrder([2,1,0])
-
     # accepts input as 3D numpy array
     segmentor.setInputData(data3d)
+
+	
+The function readAs3DNumpyArray uses vtk to read a MetaImage file and convert it to a numpy array.
+
+.. code-block:: python
+
+
+    def readAs3DNumpyArray(filename):
+    	reader = vtk.vtkMetaImageReader()
+    	reader.SetFileName(filename)
+    	reader.Update()
+    	# transform the VTK data to 3D numpy array
+    	nparray = Converter.vtk2numpy(reader.GetOutput())
+    	return (nparray , reader)
+		
 
 Running the segmentation
 ........................
@@ -129,6 +136,19 @@ are identified by 3 points in space, which are identified by 3 spatial coordinat
 - listOfIsosurfaces = array([surface_0, surface_1, surface_2,...])
 
 This list is sorted from largest to smallest surface. For instance, the second largest surface will be the second element of the array.
+
+To retrieve the mask from the same isosurface one can use the following code. Notice that during the retrieval we can access the volume of the voxels at the isosurface,
+the volume of the voxels with value above/below the isovalue. If the spacing is (1,1,1), the volume is the number of voxels. 
+
+.. code-block:: python
+
+
+    mask = segmentor.getSurfaceAsMask(0, labelIso=1, labelHigh=2, labelLow=0)
+    print ("Volume of iso %d" % segmentor.isoVolume)
+    print ("Volume of lower %d" % segmentor.lowVolume)
+    print ("Volume of higher %d" % segmentor.highVolume)
+	# reshape the mask as the original data
+    mask = numpy.reshape(mask, numpy.shape(data3d))
   
 That is basically it! You can run the following script that will do the segmentation and show something on screen.
 
@@ -157,20 +177,17 @@ That is basically it! You can run the following script that will do the segmenta
     from ccpi.segmentation.SimpleflexSegmentor import SimpleflexSegmentor
     import numpy
     import vtk
-    from vtk.util import numpy_support
-
+    
     from ccpi.viewer.CILViewer import CILViewer
+	from ccpi.viewer.CILViewer2D import CILViewer2D, Converter
 
     def readAs3DNumpyArray(filename):
-        reader = vtk.vtkMetaImageReader()
-        reader.SetFileName(filename)
-        reader.Update()
-        # transform the VTK data to 3D numpy array
-        img_data = numpy_support.vtk_to_numpy(
-        	reader.GetOutput().GetPointData().GetScalars())
-    		
-        data3d = numpy.reshape(img_data, reader.GetOutput().GetDimensions())
-        return (data3d , reader)
+    	reader = vtk.vtkMetaImageReader()
+    	reader.SetFileName(filename)
+    	reader.Update()
+    	# transform the VTK data to 3D numpy array
+    	nparray = Converter.vtk2numpy(reader.GetOutput())
+    	return (nparray , reader)
     
 	# 1. create a segmentor object
     segmentor = SimpleflexSegmentor()
@@ -182,9 +199,6 @@ That is basically it! You can run the following script that will do the segmenta
 
     # read the data as 3D numpy array
     data3d , reader = readAs3DNumpyArray(filename)
-
-    # VTK images have swapped axis with respect to the Simpleflex algorithm
-    segmentor.setAxisOrder([2,1,0])
 
     # accepts input as 3D numpy array
     segmentor.setInputData(data3d)
@@ -202,9 +216,16 @@ That is basically it! You can run the following script that will do the segmenta
 
     # 6. Retrieve the isosurfaces and display
     surf_list = segmentor.getSurfaces()
+	
+	# retrieve the image mask
+	mask = segmentor.getSurfaceAsMask(0, labelIso=1, labelHigh=2, labelLow=0)
+    print ("Volume of iso %d" % segmentor.isoVolume)
+    print ("Volume of lower %d" % segmentor.lowVolume)
+    print ("Volume of higher %d" % segmentor.highVolume)
+    mask = numpy.reshape(mask, numpy.shape(data3d))
 
     ########################################################################
-    # 7. Display
+    # 7. Display isosurfaces in 3D
     # with the retrieved data we construct polydata actors to be displayed
     # with VTK. Notice that this part is VTK specific. However, it shows how to 
     # process the data returned by the algorithm.
@@ -274,15 +295,23 @@ That is basically it! You can run the following script that will do the segmenta
     viewer.setInput3DData(reader.GetOutput())
     viewer.displaySliceActor(42)
     viewer.displayPolyData(trianglePolyData)
-
-    #viewer.addActor(imageActor)
     viewer.startRenderLoop()
 
-
+	
+    # 2D visualization
+	viewer2D = CILViewer2D()
+	viewer2D.setInputAsNumpy(mask, 
+                       origin = reader.GetOutput().GetOrigin(), 
+                       spacing = reader.GetOutput().GetSpacing(), 
+                       rescale = False)
+    viewer2D.startRenderLoop()
     ###############################################################################
 
 
 .. image:: ../pics/Segmentation_Figure_2.png
+.. image:: ../pics/Segmentation_Figure_mask.png
+.. image:: ../pics/Segmentation_Figure_3.png
+
 
 .. [Carr2003] Carr, H., Snoeyink, J., & Axen, U. (2003). Computing contour trees in all dimensions.
               Computational Geometry: Theory and Applications, 

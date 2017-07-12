@@ -32,7 +32,7 @@ A binary installation is available from the ccpi conda channel. It can be instal
 
 ::
 
-    conda install -c ccpi -c conda-forge ccpi-segmentation numpy=1.12 --python 2.7
+    conda install -c ccpi -c conda-forge ccpi-segmentation numpy=1.12
 
 -----
 Usage

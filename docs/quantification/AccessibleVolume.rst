@@ -46,7 +46,7 @@ To run the below code you need to install the following packages:
    #voxel origin
    origin = np.zeros(3,dtype=np.float32)
    #Invoke the Accessible volume algorithm
-   av = AccessibleVolumeInput(data.asarray(), mask.asarray(), origin, voxel_size,math.log(80.0), math.log(600.0), 11, 9.0 )
+   av = AccessibleVolume(data.asarray(), mask.asarray(), origin, voxel_size,math.log(80.0), math.log(600.0), 11, 9.0 )
    
    print(av)
    

@@ -21,16 +21,9 @@ The details of this algorithm are given in Evaluation of 3D bioactive glass scaf
 API
 ----
 
-Depending on the input data type please use the method LabelQuantification<xxxxx>
-
 .. code-block:: python
 
-	LabelQuantificationUShort(input_3d_volume, origin, voxel_size, min_data_value, max_data_value, minimum_feature_size)
-	LabelQuantificationUInt(input_3d_volume, origin, voxel_size, min_data_value, max_data_value, minimum_feature_size)
-	LabelQuantificationUChar(input_3d_volume, origin, voxel_size, min_data_value, max_data_value, minimum_feature_size)
-	LabelQuantificationInt(input_3d_volume, origin, voxel_size, min_data_value, max_data_value, minimum_feature_size)
-	LabelQuantificationShort(input_3d_volume, origin, voxel_size, min_data_value, max_data_value, minimum_feature_size)
-	LabelQuantificationChar(input_3d_volume, origin, voxel_size, min_data_value, max_data_value, minimum_feature_size)
+	LabelQuantification(input_3d_volume, origin, voxel_size, min_data_value, max_data_value, minimum_feature_size)
 
 	input_3d_volume: numpy array of 3d volume. data type reflects the function suffix.
 	origin: numpy array with 3 values. 
@@ -39,7 +32,7 @@ Depending on the input data type please use the method LabelQuantification<xxxxx
 	max_data_value: maximum value of the input volume
 	minimum_feature_size: minimum size of the feature
 	
-	returns: an List with each row representing a label and it corresponding values.
+	returns: an list with feature names and another numpy array with each row representing a label and it corresponding values.
 	
 Example
 --------
@@ -53,7 +46,7 @@ To run the below code you need to install the following packages:
 .. code-block:: python
   
     # Imports
-    from ccpi.quantification import LabelQuantificationUShort
+    from ccpi.quantification.LabelQuantification import LabelQuantification
     import numpy as np
     import math
     from tifffile import TiffFile        
@@ -63,18 +56,15 @@ To run the below code you need to install the following packages:
     data = img.asarray()
 	
 	#voxel size
-    voxel_size = np.ones(3,dtype=float)
+    voxel_size = np.ones(3,dtype=np.float32)
 	#origin
-    origin = np.zeros(3,dtype=np.int32)
+    origin = np.zeros(3,dtype=np.float32)
 	
 	#computes the 3d quantification
-    lqs = LabelQuantificationUShort(data, origin, voxel_size, float(np.amin(data)), float(np.amax(data)), 100.0)
+    lqsNames, lqsValues = LabelQuantification(data, origin, voxel_size, float(np.amin(data)), float(np.amax(data)), 100.0)
     lqs.compute()
 	
-	#returns the quantified values
-    output = lqs.getOutput()
-	
-    print(output)
+    print(lqsNames)
     img.close()
 
 

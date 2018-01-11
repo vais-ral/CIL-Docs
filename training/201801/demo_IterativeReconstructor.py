@@ -33,7 +33,7 @@ experiment.getParameter('reconstructor').setParameter(iterations=20)
 
 #reconstruct
 
-vol = experiment.reconstruct(iterations=110)
+vol = experiment.reconstruct(iterations=10)
 #vol = experiment.reconstruct()
 
 norm = instrument.getParameter('normalized_projections')
@@ -81,10 +81,10 @@ from ccpi.viewer.CILViewer import CILViewer
 segmentor = SimpleflexSegmentor()
 segmentor.setInputData(vol)
 segmentor.calculateContourTree()
-segmentor.setIsoValue(3000.)
+segmentor.setIsoValue(6000.)
 print ('construct isosurfaces')
 #segmentor.constructIsoSurfaces()
-segmentor.updateTreeFromLogTreeSize(0.35)
+segmentor.updateTreeFromLogTreeSize(0.4)
 print ('construct isosurfaces done')
 surf_list = segmentor.getSurfaces()
 

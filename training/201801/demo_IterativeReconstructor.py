@@ -8,6 +8,7 @@ import numpy
 import matplotlib.pyplot as plt
 from ccpi.instrument import Diamond
 from ccpi.reconstruction.experiment import TomographyExperiment
+import vtk
 
 # 1 create a Tomography Experiment
 experiment = TomographyExperiment()
@@ -32,8 +33,8 @@ experiment.getParameter('reconstructor').setParameter(iterations=20)
 
 #reconstruct
 
-#vol = experiment.reconstruct(number_of_iterations=20)
-vol = experiment.reconstruct()
+vol = experiment.reconstruct(iterations=110)
+#vol = experiment.reconstruct()
 
 norm = instrument.getParameter('normalized_projections')
 
@@ -72,19 +73,114 @@ imgplot = plt.imshow(vol[80])
 
 
 plt.show()
+from ccpi.segmentation.SimpleflexSegmentor import SimpleflexSegmentor
+from ccpi.viewer.CILViewer2D import CILViewer2D, Converter
+from ccpi.viewer.CILViewer import CILViewer
 
 
-# In[19]:
+segmentor = SimpleflexSegmentor()
+segmentor.setInputData(vol)
+segmentor.calculateContourTree()
+segmentor.setIsoValue(3000.)
+print ('construct isosurfaces')
+#segmentor.constructIsoSurfaces()
+segmentor.updateTreeFromLogTreeSize(0.35)
+print ('construct isosurfaces done')
+surf_list = segmentor.getSurfaces()
 
+#mask = segmentor.getSurfaceAsMask(0, labelIso=1, labelHigh=2, labelLow=0)
+#print ("Volume of iso %d" % segmentor.isoVolume)
+#print ("Volume of lower %d" % segmentor.lowVolume)
+#print ("Volume of higher %d" % segmentor.highVolume)
+## reshape the mask as the original data
+#mask = numpy.reshape(mask, numpy.shape(vol))
 
-reconstructor = experiment.getParameter('reconstructor')
-reconstructor.getParameter('iterations')
-#reconstructor.setParameter(iterations=20)
-#reconstructor.getParameter('iterations')
+def surf2PolyData(surf_list, limit):
+    ########################################################################
+    # 7. Display isosurfaces in 3D
+    # with the retrieved data we construct polydata actors to be displayed
+    # with VTK. Notice that this part is VTK specific. However, it shows how to
+    # process the data returned by the algorithm.
+    
+    # Create the VTK output
+    # Points coordinates structure
+    triangle_vertices = vtk.vtkPoints()
+    #associate the points to triangles
+    triangle = vtk.vtkTriangle()
+    # put all triangles in an array
+    triangles = vtk.vtkCellArray()
+    isTriangle = 0
+    nTriangle = 0
+    
+    surface = 0
+    # associate each coordinate with a point: 3 coordinates are needed for a point
+    # in 3D. Additionally we perform a shift from image coordinates (pixel) which
+    # is the default of the Contour Tree Algorithm to the World Coordinates.
+    
+    #origin = reader.GetOutput().GetOrigin()
+    #spacing = reader.GetOutput().GetSpacing()
+    origin = [0,0,0]
+    spacing = [1,1,1]
+    
+    # augmented matrix for affine transformations
+    mScaling = numpy.asarray([spacing[0], 0,0,0,
+                                                  0,spacing[1],0,0,
+                                                  0,0,spacing[2],0,
+                                                  0,0,0,1]).reshape((4,4))
+    mShift = numpy.asarray([1,0,0,origin[0],
+                                                0,1,0,origin[1],
+                                                0,0,1,origin[2],
+                                                0,0,0,1]).reshape((4,4))
+    
+    mTransform = numpy.dot(mScaling, mShift)
+    point_count = 0
+    surf_count = 0
+    #for surf in surf_list:
+    while (surf_count < limit and surf_count < len(surf_list) ):
+        surf = surf_list[surf_count]
+        print("Image-to-world coordinate trasformation ... %d" % surface)
+        for point in surf:
+            world_coord = numpy.dot(mTransform, point)
+            xCoord = world_coord[0]
+            yCoord = world_coord[1]
+            zCoord = world_coord[2]
+            triangle_vertices.InsertNextPoint(xCoord, yCoord, zCoord);
+    
+    
+            # The id of the vertex of the triangle (0,1,2) is linked to
+            # the id of the points in the list, so in facts we just link id-to-id
+            triangle.GetPointIds().SetId(isTriangle, point_count)
+            isTriangle += 1
+            point_count += 1
+    
+            if (isTriangle == 3) :
+                isTriangle = 0;
+                # insert the current triangle in the triangles array
+                triangles.InsertNextCell(triangle);
+    
+        surface += 1
+    
+        # polydata object
+        trianglePolyData = vtk.vtkPolyData()
+        trianglePolyData.SetPoints( triangle_vertices )
+        trianglePolyData.SetPolys(  triangles  )
+        
+        surf_count += 1
 
+    return trianglePolyData
+###############################################################################
 
-# In[ ]:
+trianglePolyData = surf2PolyData(surf_list, 2)
 
+viewer = CILViewer()
+viewer.setInputAsNumpy(vol)
+viewer.displaySliceActor(42)
+viewer.displayPolyData(trianglePolyData)
+viewer.startRenderLoop()
 
-#total_
+if True:
+    
+    viewer = CILViewer2D()
+    viewer.setInputAsNumpy(vol)
+    viewer.startRenderLoop()
 

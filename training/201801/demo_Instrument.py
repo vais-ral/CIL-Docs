@@ -34,17 +34,37 @@ import numpy
 import matplotlib.pyplot as plt
 
 
-nx = h5py.File(r'../../data/phant3D_256.h5', "r")
-ph = numpy.asarray(nx.get('/dataset1'))
-
-phantom = numpy.asarray(ph[10:250,:,20:240], dtype=numpy.float32)
-nangles = 60
-angles = numpy.linspace(0,360, nangles, dtype=numpy.float32)
+#nx = h5py.File(r'../../data/phant3D_256.h5', "r")
+#ph = numpy.asarray(nx.get('/dataset1'))
+#phantom = numpy.asarray(ph[10:250,:,20:240], dtype=numpy.float32)
+#
+phantom = numpy.load(r'../../data/PhantomSpheres_256_3.npy')
+nangles = 91
+angles = numpy.linspace(-90,90, nangles, dtype=numpy.float32)
 
 diamond = Diamond()
+#
+stack = diamond.doForwardProject(phantom, angles, negative=True , normalized=True)
+# the cgls doesn't like 0's and more the 1s	
+stack [numpy.where(stack<=0)] = 1e-3
+stack [numpy.where(stack>1)] = 1 - 1e-3
 
-stack = diamond.doForwardProject(phantom, angles)
-print ("stack " ,stack.min(), stack.max())
+#
+## clip negative values and normalize
+#clip = lambda x,v,m: x if x > m else v
+#clipper = numpy.frompyfunc(clip,3,1)
+#norm = clipper(stack,0.001,0.001)
+#print ("norm " ,norm.min(), norm.max())
+#norm = norm/norm.max()
+### absorption is from 0 to 1 where 0 is max density
+#norm = 1 - norm
+#print ("stack " ,norm.min(), norm.max())
+#norm = clipper(norm,0.001, 0.001)
+#print ("stack " ,norm.min(), norm.max())
+##stack = numpy.transpose(stack, axes=[0,2,1]).copy()
+#
+numpy.save(r'../../data/projections_PhantomSpheres_256_3.npy', stack)
+numpy.save(r'../../data/angles_PhantomSpheres_256_3.npy', angles)
 
 
 back = diamond.doBackwardProject()
@@ -72,4 +92,5 @@ if cols >= current:
 
 
 plt.show()
+
 

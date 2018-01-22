@@ -14,38 +14,85 @@ from ccpi.viewer.CILViewer2D import CILViewer2D, Converter
 from ccpi.viewer.CILViewer import CILViewer
 
 
+
+
+#%%
+
+
+
+
 # 1 create a Tomography Experiment
 experiment = TomographyExperiment()
 experiment.debug = False
+
+
+
+#%%
+
+
 # 1 go to the instrument 
 instrument = Diamond()
 instrument.debug = False
 
+
+
+#%%
+
+
+
 experiment.setParameter(instrument=instrument)
+
+
+
+#%%
+
+
 
 #and make data acquisition
 if False:
     ## load a NeXus file 
     filename = r"../../data/24737_fd.nxs"
     instrument.loadNexus(filename)
+
+
+
+
+
 else:
     # load Phantom
     stack = numpy.load(r'../../data/projections_PhantomSpheres_256_3.npy')
     angles= numpy.load(r'../../data/angles_PhantomSpheres_256_3.npy')
     instrument.setParameter(normalized_projections = stack, angles = angles)
 
+
+
+
+#%%
+
+
+
 experiment.printAvailableReconstructionAlgorithms()
+
+
+#%%
+
+
 # create a reconstructor helper
-experiment.createReconstructor('cgls_tikhonov', debug=True)
+experiment.createReconstructor('cgls_tv', debug=True)
 experiment.getParameter('reconstructor').setParameter(iterations=50, 
-                       regularization_parameter=1)
+                       regularization_parameter=3e-4,
+                       threads=4)
 
-
+#%%
 
 #reconstruct
 
-vol = experiment.reconstruct(iterations=10)
+vol = experiment.reconstruct(iterations=5)
 #vol = experiment.reconstruct()
+
+
+#%%
+
 
 norm = instrument.getParameter('normalized_projections')
 

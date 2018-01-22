@@ -32,6 +32,8 @@ from ccpi.instrument import Diamond
 import h5py
 import numpy
 import matplotlib.pyplot as plt
+from ccpi.viewer.CILViewer2D import CILViewer2D, Converter
+
 
 
 #nx = h5py.File(r'../../data/phant3D_256.h5', "r")
@@ -39,6 +41,16 @@ import matplotlib.pyplot as plt
 #phantom = numpy.asarray(ph[10:250,:,20:240], dtype=numpy.float32)
 #
 phantom = numpy.load(r'../../data/PhantomSpheres_256_3.npy')
+print ("phantom " ,phantom.min(), phantom.max())
+#%%
+
+clip = lambda x,m: x if x < 0.7 else m
+clipper = numpy.frompyfunc(clip,2,1)
+#phantom2 = clipper(phantom,0)
+phantom2= phantom.copy()
+phantom2 [numpy.where(phantom2>0.70)] = 1e-3
+print ("phantom2 " ,phantom2.min(), phantom2.max())
+#%%
 nangles = 91
 angles = numpy.linspace(-90,90, nangles, dtype=numpy.float32)
 
@@ -51,7 +63,7 @@ stack [numpy.where(stack>1)] = 1 - 1e-3
 
 #
 ## clip negative values and normalize
-#clip = lambda x,v,m: x if x > m else v
+#clip = lambda x,v,m: x if x < m else v
 #clipper = numpy.frompyfunc(clip,3,1)
 #norm = clipper(stack,0.001,0.001)
 #print ("norm " ,norm.min(), norm.max())
@@ -93,4 +105,7 @@ if cols >= current:
 
 plt.show()
 
+viewer = CILViewer2D()
+viewer.setInputAsNumpy(phantom)
+viewer.startRenderLoop()
 

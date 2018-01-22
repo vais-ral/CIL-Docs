@@ -88,8 +88,33 @@ Building of the CIL modules is done with CMake, and each module will contain the
 Anaconda
 ========
 
-Refer to the next section.
+Install Anaconda or Miniconda. 
+``conda`` is a package manager system and virtual environment manager, possibly `more <https://www.anaconda.com/what-is-anaconda/>`_
+. 
 
+Installing packages
+-------------------
+
+The basic install command is 
+
+``conda install <package-name>=<version>``
+
+``conda`` searches and installs packages from its main source ``anaconda.com``.  It is possible to add sources (channels) of packages from ``anaconda.org`` which is a community driven repository. This can be forced on ``conda`` by 
+
+``conda install <package-name>=<version> -c <channel-name>``
+
+One may add a number of channels and they should be searched in the order in which you provide them. I find it easier to use the ``.condarc`` file to specify the channels:
+
+.. code-block :: text
+
+  channels:
+    - ccpi
+    - conda-forge
+    - defaults
+  anaconda_upload: false
+
+This instructs conda to search with higher priority the ccpi channel, followed by conda-forge and last default. Notice that any package which may reside on a different channel cannot be installed unless the channel is passed to conda. 
+  
 Building with Conda
 *******************
 
@@ -188,3 +213,4 @@ done via the `ccpi conda channel <https://anaconda.org/ccpi>`_
 This means that the Python wrappers are built using `conda <https://conda.io/docs/user-guide/tasks/build-packages/recipe.html>`_
 . 
 
+ 

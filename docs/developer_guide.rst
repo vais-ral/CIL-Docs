@@ -46,7 +46,7 @@ Typical Workflow:
 2) Pull from master frequently to reduce the amount of work needed when merging
 3) Use pull requests (PR) to add features in the master, even if you merge them yourself. The best way is to branch from master, make the patch and issue a PR
 4) Use issues for bugs, proposals and discussions in general. You can assign issues to someone to require their attention.
-5) Close issues when possible. Use ìcloses #Nî with N issue number in messages of commits when your commit fixes an issue. https://help.github.com/articles/closing-issues-using-keywords/
+5) Close issues when possible. Use ‚Äúcloses #N‚Äù with N issue number in messages of commits when your commit fixes an issue. https://help.github.com/articles/closing-issues-using-keywords/
  
 Some git commands
 -----------------
@@ -57,12 +57,12 @@ Some git commands
   git diff filename
   git add filename
   git commit
-  git commit ñm ìmessageî
+  git commit ‚Äìm ‚Äúmessage‚Äù
   git pull origin <branch>
   git push origin <branch>
-  git rebase ñi HEAD~4     # rebases interactively the last 3 commits: read the screen
+  git rebase ‚Äìi HEAD~4     # rebases interactively the last 3 commits: read the screen
   git checkout <branch>    # to change the actual local branch
-  git checkout ñb <branch> # to create and checkout a new local branch
+  git checkout ‚Äìb <branch> # to create and checkout a new local branch
   git branch -d <branch>   # to delete a local branch
 
  
@@ -262,7 +262,7 @@ Building Core with conda
 
 1) Clone the git repository git clone https://github.com/vais-ral/CCPi-FISTA_Reconstruction.git
 2) Create a directory for the builds outside of the source directory
-3) conda create ñname cil ñpython=3.5 ñnumpy=1.12
+3) conda create ‚Äìname cil ‚Äìpython=3.5 ‚Äìnumpy=1.12
 4) module load python/anaconda (optional, depends on the actual machine installation)
 5) source activate cil
 
@@ -275,6 +275,3 @@ done via the `ccpi conda channel <https://anaconda.org/ccpi>`_
 
 This means that the Python wrappers are built using `conda <https://conda.io/docs/user-guide/tasks/build-packages/recipe.html>`_
 . 
-
- 
-

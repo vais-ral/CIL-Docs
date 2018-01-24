@@ -13,3 +13,4 @@ to make them run faster and maintainable.
    quantification
    segmentation
    contribution
+   developer_guide

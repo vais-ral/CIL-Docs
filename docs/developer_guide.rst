@@ -15,6 +15,14 @@ Wrappers:
 Essential Tools
 ***************
 
+The development cycle of the CIL requires the usage of a few common tools:
+
+  1. git and GitHub
+  2. CMake
+  3. Anaconda and conda build
+  
+These tools are meant to simplify the development cycle, but the developer is required to have some confidence in the use of them. Mostly, one would be modifying existing files, but you never know.
+
 Directory structure
 ===================
 
@@ -265,13 +273,3 @@ Building Core with conda
 3) conda create –name cil –python=3.5 –numpy=1.12
 4) module load python/anaconda (optional, depends on the actual machine installation)
 5) source activate cil
-
-Python Wrappers
-***************
-
-Python wrappers are our current primary endpoint. The distribution of the software is 
-done via the `ccpi conda channel <https://anaconda.org/ccpi>`_
-. 
-
-This means that the Python wrappers are built using `conda <https://conda.io/docs/user-guide/tasks/build-packages/recipe.html>`_
-. 

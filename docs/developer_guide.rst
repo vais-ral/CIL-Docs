@@ -112,7 +112,7 @@ You can delete an environment by:
   
   conda remove --name <environment_name> --all
   
-Refer to the `main conda docs<https://conda.io/docs/user-guide/tasks/manage-environments.html>`_ for further information.
+Refer to the `main conda docs <https://conda.io/docs/user-guide/tasks/manage-environments.html>`_ for further information.
 
 Installing packages
 -------------------

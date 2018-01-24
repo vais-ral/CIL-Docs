@@ -104,7 +104,7 @@ The first thing to do is to create an environment. This is achieved by:
 
   conda create --name <environment_name> python=3.5 <other packages>
   
-Basically this instructs conda to create an environment named `<environment_name>` with python 3.5. You can also specify a list of other packages you want to install in your enviroment at creation time. 
+Basically this instructs conda to create an environment named ``<environment_name>`` with python 3.5. You can also specify a list of other packages you want to install in your enviroment at creation time. 
 
 You can delete an environment by:
 
@@ -160,14 +160,14 @@ In the CIL there are basically 3 kinds of packages:
 
 To compile a shared library:
   1. start in the main repository directory
-  2. `export CIL_VERSION=someversion`
-  3. `conda build recipes/library --numpy 1.12 --python 3.5` (adjust the python version)
-  4. `conda install cil_libraryname=someversion  --use-local --force` 
+  2. ``export CIL_VERSION=someversion``
+  3. ``conda build recipes/library --numpy 1.12 --python 3.5`` (adjust the python version)
+  4. ``conda install cil_libraryname=someversion  --use-local --force``
 
 To compile a Python wrapper to a shared library or a pure Python package:
   1. in the Wrappers/Python directory
-  2. `conda build conda-recipe --numpy 1.12 --python 3.5`
-  3. `conda install ccpi-pythonpackagename=someversion --use-local --force`
+  2. ``conda build conda-recipe --numpy 1.12 --python 3.5``
+  3. ``conda install ccpi-pythonpackagename=someversion --use-local --force``
 
 When launching the build you may have activated an environment or not. I suggest to activate an environment with most of the needed packages as the conda build will be quicker. **It is fundamental to have an environment activated when installing**.
 Notice that there isn't any dependency check when installing local packages. 
@@ -175,7 +175,7 @@ Notice that you will have to force installation whenever the version of the pack
 
 When builds end prematurely (on errors), conda will not remove the build tree. Every now and again issue a 
 
-`conda build purge`
+``conda build purge``
 
 to clean your hard drive.
 

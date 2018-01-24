@@ -1,5 +1,5 @@
-Developer guide
-###############
+Developer's guide
+#################
 
 
 CORE (C/C++) built as library
@@ -92,6 +92,28 @@ Install Anaconda or Miniconda.
 ``conda`` is a package manager system and virtual environment manager, possibly `more <https://www.anaconda.com/what-is-anaconda/>`_
 . 
 
+Managing environments
+-----------------------
+
+
+With conda you can install multiple python versions and use them at the same time without messing around with your system python installation. 
+
+The first thing to do is to create an environment. This is achieved by:
+
+.. code-block ::
+
+  conda create --name <environment_name> python=3.5 <other packages>
+  
+Basically this instructs conda to create an environment named `<environment_name>` with python 3.5. You can also specify a list of other packages you want to install in your enviroment at creation time. 
+
+You can delete an environment by:
+
+.. code-block ::
+  
+  conda remove --name <environment_name> --all
+  
+Refer to the `main conda docs<https://conda.io/docs/user-guide/tasks/manage-environments.html>`_ for further information.
+
 Installing packages
 -------------------
 
@@ -118,7 +140,48 @@ This instructs conda to search with higher priority the ccpi channel, followed b
 Building with Conda
 *******************
 
-While building with conda, conda creates an environment for the purpose, copies all the relevant data, issues cmake and packages everything. It's pretty neat but it must be configured.
+While building with conda, conda creates an environment for the purpose, copies all the relevant data, issues cmake and packages everything. It's pretty neat but it must be configured. This configuration is called conda recipe.
+
+We will cover the building with conda in 2 steps: 
+
+1) building with a conda recipe that exist and works
+2) creating a conda recipe
+
+During the development cycle you will be faced with building your software again and again. The suggestion here is to continue to use a conda build as it keeps things organized. Therefore you will be faced more often with case 1), i.e. building with a pre-existing and working conda recipe. When a new package is created, a new conda recipe must be written. This will happen with less frequency, and I will cover it later.
+
+Building with existing conda recipe
+===================================
+
+In the CIL there are basically 3 kinds of packages:
+  1. Shared libraries
+  2. Python wrappers (or other)
+  3. Pure Python packages
+
+
+To compile a shared library:
+  1. start in the main repository directory
+  2. `export CIL_VERSION=someversion`
+  3. `conda build recipes/library --numpy 1.12 --python 3.5` (adjust the python version)
+  4. `conda install cil_libraryname=someversion  --use-local --force` 
+
+To compile a Python wrapper to a shared library or a pure Python package:
+  1. in the Wrappers/Python directory
+  2. `conda build conda-recipe --numpy 1.12 --python 3.5`
+  3. `conda install ccpi-pythonpackagename=someversion --use-local --force`
+
+When launching the build you may have activated an environment or not. I suggest to activate an environment with most of the needed packages as the conda build will be quicker. **It is fundamental to have an environment activated when installing**.
+Notice that there isn't any dependency check when installing local packages. 
+Notice that you will have to force installation whenever the version of the package doesn't change.
+
+When builds end prematurely (on errors), conda will not remove the build tree. Every now and again issue a 
+
+`conda build purge`
+
+to clean your hard drive.
+
+
+Writing a conda recipe
+======================
 
 The conda build requires the presence of the so-called `conda recipe <https://conda.io/docs/user-guide/tasks/build-packages/recipe.html>`_
 . A recipe lives in a directory where there are 2 or 3 files.
@@ -214,3 +277,4 @@ This means that the Python wrappers are built using `conda <https://conda.io/doc
 . 
 
  
+

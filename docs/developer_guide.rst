@@ -1,5 +1,5 @@
-Developer guide
-###############
+Developer's guide
+#################
 
 
 CORE (C/C++) built as library
@@ -46,7 +46,7 @@ Typical Workflow:
 2) Pull from master frequently to reduce the amount of work needed when merging
 3) Use pull requests (PR) to add features in the master, even if you merge them yourself. The best way is to branch from master, make the patch and issue a PR
 4) Use issues for bugs, proposals and discussions in general. You can assign issues to someone to require their attention.
-5) Close issues when possible. Use ìcloses #Nî with N issue number in messages of commits when your commit fixes an issue. https://help.github.com/articles/closing-issues-using-keywords/
+5) Close issues when possible. Use ‚Äúcloses #N‚Äù with N issue number in messages of commits when your commit fixes an issue. https://help.github.com/articles/closing-issues-using-keywords/
  
 Some git commands
 -----------------
@@ -57,12 +57,12 @@ Some git commands
   git diff filename
   git add filename
   git commit
-  git commit ñm ìmessageî
+  git commit ‚Äìm ‚Äúmessage‚Äù
   git pull origin <branch>
   git push origin <branch>
-  git rebase ñi HEAD~4     # rebases interactively the last 3 commits: read the screen
+  git rebase ‚Äìi HEAD~4     # rebases interactively the last 3 commits: read the screen
   git checkout <branch>    # to change the actual local branch
-  git checkout ñb <branch> # to create and checkout a new local branch
+  git checkout ‚Äìb <branch> # to create and checkout a new local branch
   git branch -d <branch>   # to delete a local branch
 
  
@@ -91,6 +91,28 @@ Anaconda
 Install Anaconda or Miniconda. 
 ``conda`` is a package manager system and virtual environment manager, possibly `more <https://www.anaconda.com/what-is-anaconda/>`_
 . 
+
+Managing environments
+-----------------------
+
+
+With conda you can install multiple python versions and use them at the same time without messing around with your system python installation. 
+
+The first thing to do is to create an environment. This is achieved by:
+
+.. code-block ::
+
+  conda create --name <environment_name> python=3.5 <other packages>
+  
+Basically this instructs conda to create an environment named `<environment_name>` with python 3.5. You can also specify a list of other packages you want to install in your enviroment at creation time. 
+
+You can delete an environment by:
+
+.. code-block ::
+  
+  conda remove --name <environment_name> --all
+  
+Refer to the `main conda docs<https://conda.io/docs/user-guide/tasks/manage-environments.html>`_ for further information.
 
 Installing packages
 -------------------
@@ -199,7 +221,7 @@ Building Core with conda
 
 1) Clone the git repository git clone https://github.com/vais-ral/CCPi-FISTA_Reconstruction.git
 2) Create a directory for the builds outside of the source directory
-3) conda create ñname cil ñpython=3.5 ñnumpy=1.12
+3) conda create ‚Äìname cil ‚Äìpython=3.5 ‚Äìnumpy=1.12
 4) module load python/anaconda (optional, depends on the actual machine installation)
 5) source activate cil
 

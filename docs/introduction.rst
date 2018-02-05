@@ -1,12 +1,13 @@
 Introduction
 ======================
 
-The CCPi Core Imaging Library (CIL) consists of four main modules. These are part of work flow for the CT based experiments data analysis. The four main modules are :
+The CCPi Core Imaging Library (CIL) consists of five main modules. These are part of work flow for the CT based experiments data analysis. The five main modules are :
 
 * Pre-Processing
 * Reconstruction
 * Segmentation
 * Quantification
+* Viewer
 
 The pre-processing module provides the methods for modifying the raw data from the instruments before performing the reconstruction, for example: Beam hardening for Lab based instruments (cone beam). 
 

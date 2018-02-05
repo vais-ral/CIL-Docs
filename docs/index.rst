@@ -14,3 +14,4 @@ to make them run faster and maintainable.
    segmentation
    contribution
    developer_guide
+   changelog

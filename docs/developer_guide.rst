@@ -270,6 +270,6 @@ Building Core with conda
 
 1) Clone the git repository git clone https://github.com/vais-ral/CCPi-FISTA_Reconstruction.git
 2) Create a directory for the builds outside of the source directory
-3) conda create –name cil –python=3.5 –numpy=1.12
+3) conda create –-name cil python=3.5 numpy=1.12
 4) module load python/anaconda (optional, depends on the actual machine installation)
 5) source activate cil

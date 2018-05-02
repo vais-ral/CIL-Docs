@@ -26,6 +26,7 @@ The interactive viewer CILViewer2D provides:
     The histogram is displayed based on the current 2D slice which has its boundaries within the 2D extent of the ROI.
 
     Mouse/Keyboard Interactions:
+    
     - Create ROI: CTRL + Left Mouse Button 
     - Resize ROI: Left Mouse Button on one of the hotspots + drag
     - Translate ROI: Middle Mouse Button within ROI
@@ -57,16 +58,21 @@ Screenshots
 -----------
 
 View along X-axis:
+
 .. image:: https://github.com/vais-ral/CILViewer/raw/master/pics/sliceXPick.png
 
 Window/Level Adjust:
+
 .. image:: https://github.com/vais-ral/CILViewer/raw/master/pics/windowLevel.png
 
 Region of Interest (ROI):
+
 .. image:: https://github.com/vais-ral/CILViewer/raw/master/pics/ROI.png
 
 Line Profiler:
+
 .. image:: https://github.com/vais-ral/CILViewer/raw/master/pics/line.png
 
 Zoom:
+
 .. image:: https://github.com/vais-ral/CILViewer/raw/master/pics/zoom.png

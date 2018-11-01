@@ -275,9 +275,15 @@ Building Core with conda
 5) source activate cil
 
 
-## Known issues
+Known issues
+============
 
-On linux with encrypted partitions conda build may fail with a `conda.CondaError: Unable to create prefix directory '/home/user/build/build_pkg_1541067222523/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_plac'.
-Check that you have sufficient permissions.`
+On linux with encrypted partitions conda build may fail with a 
+
+.. code-block :: text
+  conda.CondaError: Unable to create prefix directory   '/home/user/build/build_pkg_1541067222523/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_plac'.
+  Check that you have sufficient permissions.
+
+
 Conda hints that you don't have permissions, but trying to create the directory is impossible as you are exceeding the maximum path length. 
-The only [solution](https://github.com/conda/conda-build/issues/1331#issuecomment-258688863) is to build to a different drive using `--croot /path/to/unencrypted/drive`
+The only `solution <https://github.com/conda/conda-build/issues/1331#issuecomment-258688863>`_ is to build to a different drive using ``--croot /path/to/unencrypted/drive``

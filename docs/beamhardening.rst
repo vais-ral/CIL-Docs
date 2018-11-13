@@ -157,7 +157,7 @@ If the software was obtained from SVN this could be done from a command prompt b
   read script.full
   quit
   
-Note that it may be useful to look at the graphs plotted bt this process before using the ``quit`` command,
+Note that it may be useful to look at the graphs plotted by this process before using the ``quit`` command,
 since these disappear when the program stops.
   
 If the conda installation method was used then it would be necessary to unzip the test data into a folder. The test

@@ -130,7 +130,7 @@ The main Python modules that may need to be added to a local installation are:
 * numpy - needed for array operations
 * matplotlib - needed for plotting
 * scipy - needed for optimization
-* tifffile - needed fow working with tiff images
+* tifffile - needed for working with tiff images (install from `conda-forge` channel by: `conda -y -c conda-forge tifffile`)
 
 
 The CarouselFit software can be checked out to a suitable directory using the command ::
@@ -152,8 +152,9 @@ and reading an example script file.
 If the software was obtained from SVN this could be done from a command prompt by typing:
 ::
 
+  cd test
   python ../src/runCarouselFit.py
-  read script_demo.txt
+  read script.full
   quit
   
 Note that it may be useful to look at the graphs plotted bt this process before using the ``quit`` command,
@@ -162,7 +163,8 @@ since these disappear when the program stops.
 If the conda installation method was used then it would be necessary to unzip the test data into a folder. The test
 data is available from git hub as:
 ::
-    https://github.com/vais-ral/CIL-Docs/blob/master/test/bhctestdata.zip
+    https://github.com/vais-ral/CIL-Docs/raw/master/test/bhctestdata.zip
+    
     
 When this has been downloaded and unziped, get a command prompt in that folder and type the lines:
 ::

@@ -1,6 +1,9 @@
 Developer's guide
 #################
 
+.. toctree::
+
+	buildandtestautomation
 
 CORE (C/C++) built as library
 	C/C++ API

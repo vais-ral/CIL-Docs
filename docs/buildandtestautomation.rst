@@ -25,16 +25,20 @@ With following limitation:
 Recommended setting in continuous integration
 ---------------------------------------------
 
-CCPi modules are configured with proprietar installation of Jenkins at https://anvil.softeng-support.ac.uk/. 
+Automatic build process can be triggered by various events. The recommended events ar `push` and `pull-request`. 
+A so called "Webhook" can be configured in Github to send a notification about an event to third party application. 
+Jenkins (or any other CI tool) can be configured to listen to such notification and launch configured action, i.e. build process.
+
+CCPi modules with source codes at https://github.com/vais-ral/ are configured with proprietar installation of Jenkins at https://anvil.softeng-support.ac.uk/. 
 This service is provided for UK academics community. However, the following is recommended to be set in any Jenkins deployment 
 for every CCPI-[module]:
 
 Production built for CCPi-[module_name]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In Jenkins UI jenkins job definition set these values:
-  * ``choose folder``, New Item, Enter Item Name: ``CCPi-[module-name]``, Freestyle project
-  * [x] Github project -> Project URL: ``https://github.com/vais-ral/CCPi-[module_name]/``
+To configure build action on `push` event on `master` branch received from Github do following in Jenkins:
+  1) Create new project by: ``choose folder``, New Item, Enter Item Name: ``CCPi-[module-name]``, Freestyle project
+  2) Enter these values: [x] Github project -> Project URL: ``https://github.com/vais-ral/CCPi-[module_name]/``
   * [x] Restrict where this project can be run -> Label Expression ``sl7``  (choose this to scientific linux, ubuntu or any linux based machine)
   * Source code management -> [x] Git -> 
     - Repositories, Repository URL: ``https://github.com/vais-ral/CCPi-[module_name].git``
@@ -42,6 +46,9 @@ In Jenkins UI jenkins job definition set these values:
     - Additional Behaviours, Check out to specific local branch 
   * Build triggers, [x] Github hook trigger for GITScm polling
   * Execute shell::
+  
+  .. code::
+
     module load conda
     #commented version = version will be determined from git tag and number commits
     #export CIL_VERSION=0.10.3
@@ -56,8 +63,10 @@ In Github project -> Settings -> Webhooks
 
 Development built for pull request on CCPi-[module_name]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In Jenkins UI jenkins job definition set these values:
-  * ``choose folder``, New Item, Enter Item Name: ``CCPi-[module-name]``, Freestyle project
+To configure build action on `pull-request` event on any branch received from Github do following in Jenkins:
+
+  1) Create new project by: ``choose folder``, New Item, Enter Item Name: ``CCPi-[module-name]``, Freestyle project
+  2) Enter these values: 
   * [x] Github project -> Project URL: ``https://github.com/vais-ral/CCPi-[module_name]/``
   * [x] Restrict where this project can be run -> Label Expression ``sl7``  (choose this to scientific linux, ubuntu or any linux based machine)
   * Source code management -> [x] Git -> 
@@ -73,6 +82,9 @@ In Jenkins UI jenkins job definition set these values:
       + Check out to specific local branch 
   * Build triggers, [x] Poll SCM
   * Execute shell::
+  
+  .. code::
+  
     module load conda
     #commented version = version will be determined from git tag and number commits
     #export CIL_VERSION=0.10.3

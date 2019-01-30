@@ -29,16 +29,20 @@ Automatic build process can be triggered by various events. The recommended even
 A so called "Webhook" can be configured in Github to send a notification about an event to third party application. 
 Jenkins (or any other CI tool) can be configured to listen to such notification and launch configured action, i.e. build process.
 
-CCPi modules with source codes at https://github.com/vais-ral/ are configured with proprietar installation of Jenkins at https://anvil.softeng-support.ac.uk/. 
+CCPi modules with source codes at https://github.com/vais-ral/ are configured with proprietar installation of Jenkins at https://anvil.softeng-support.ac.uk/jenkins. 
 This service is provided for UK academics community. However, the following is recommended to be set in any Jenkins deployment 
-for every CCPI-[module]:
+for every CCPi module. In the following section, replace `[module_name]` with your selected ccpi module (e.g. `Regularisation-Toolkit`) and replace `[jenkins_url]` with
+url to jenkins instance (e.g. `https://anvil.softeng-support.ac.uk/jenkins`):
 
 Production built for CCPi-[module_name]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Jenkins is pressumed to contain only "Git" and "Github" plugins. No other plugins are required.
 
 To configure build action on `push` event on `master` branch received from Github do following in Jenkins:
-  1) Create new project by: ``choose folder``, New Item, Enter Item Name: ``CCPi-[module-name]``, Freestyle project
-  2) Enter these values: [x] Github project -> Project URL: ``https://github.com/vais-ral/CCPi-[module_name]/``
+  1. Create new project by: ``choose folder``, New Item, Enter Item Name: ``CCPi-[module-name]``, Freestyle project
+  2. Enter these values: 
+  
+  * [x] Github project -> Project URL: ``https://github.com/vais-ral/CCPi-[module_name]/``
   * [x] Restrict where this project can be run -> Label Expression ``sl7``  (choose this to scientific linux, ubuntu or any linux based machine)
   * Source code management -> [x] Git -> 
     - Repositories, Repository URL: ``https://github.com/vais-ral/CCPi-[module_name].git``
@@ -46,7 +50,7 @@ To configure build action on `push` event on `master` branch received from Githu
     - Additional Behaviours, Check out to specific local branch 
   * Build triggers, [x] Github hook trigger for GITScm polling
   * Execute shell::
-  
+    
   .. code::
 
     module load conda
@@ -56,17 +60,24 @@ To configure build action on `push` event on `master` branch received from Githu
     #build and upload
     . build/jenkins-build.sh
 
+.. note:: Check whether your repository url ends with `.git`. Otherwise notification from github are ignored.
+
+.. note:: "Check out to specific local branch" settings ensures 
+that branch is identified e.g. as refs/heads/master. Build script uses it to determine whether and how to upload binaries.
+
+
 In Github project -> Settings -> Webhooks
   * Add new Webhook
-  * Payload URL: ``https://anvil.softeng-support.ac.uk/jenkins/github-webhook/``
+  * Payload URL: ``[jenkins_url]/github-webhook/``
   * Which events would you like to trigger: [x] Just push event.    
 
 Development built for pull request on CCPi-[module_name]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 To configure build action on `pull-request` event on any branch received from Github do following in Jenkins:
 
-  1) Create new project by: ``choose folder``, New Item, Enter Item Name: ``CCPi-[module-name]``, Freestyle project
-  2) Enter these values: 
+  1. Create new project by: ``choose folder``, New Item, Enter Item Name: ``CCPi-[module-name]``, Freestyle project
+  2. Enter these values: 
+
   * [x] Github project -> Project URL: ``https://github.com/vais-ral/CCPi-[module_name]/``
   * [x] Restrict where this project can be run -> Label Expression ``sl7``  (choose this to scientific linux, ubuntu or any linux based machine)
   * Source code management -> [x] Git -> 
@@ -94,7 +105,7 @@ To configure build action on `pull-request` event on any branch received from Gi
 
 In Github project -> Settings -> Webhooks
   * Add new Webhook
-  * Payload URL: ``https://anvil.softeng-support.ac.uk/jenkins/git/notifyCommit?url=http://github.com/vais-ral/CCPi-[module_name].git``
+  * Payload URL: ``[jenkins_url]/git/notifyCommit?url=http://github.com/vais-ral/CCPi-[module_name].git``
   * Which events would you like to trigger: 
     - [x] Let me select individual events
     - [x] Pull request

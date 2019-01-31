@@ -47,17 +47,9 @@ To configure build action on `push` event on `master` branch received from Githu
   * Source code management -> [x] Git -> 
 
     - Repositories, Repository URL: ``https://github.com/vais-ral/CCPi-[module_name].git``
-.. note:: Note that repository url ends with `.git` suffix. 
-    Otherwise notification from github are ignored.
-
     - Branches to build, branch specifier: ``*/master``
-.. note:: Note that only master branch 
-    will be built.
 
     - Additional Behaviours, Check out to specific local branch 
-.. note:: *Check out to specific local branch* 
-    settings ensures that branch is identified e.g. as refs/heads/master. This is used to determine whether and how to upload binaries. master branch are uploaded, non-master branch (pull requests) are built only.
-
   * Build triggers, [x] Github hook trigger for GITScm polling
   * Execute shell::
 
@@ -72,6 +64,10 @@ To configure build action on `push` event on `master` branch received from Githu
     #build and upload
     bash <(curl -L https://raw.githubusercontent.com/vais-ral/CCPi-VirtualMachine/master/scripts/jenkins-build.sh)
 
+.. note:: Note that repository url ends with `.git` suffix. 
+    Otherwise notification from github are ignored.
+.. note:: *Check out to specific local branch* 
+    settings ensures that branch is identified e.g. as refs/heads/master. This is used to determine whether and how to upload binaries. master branch are uploaded, non-master branch (pull requests) are built only.
 .. note:: bash <(curl ...) calls universal script, see Section bellow.
 
 In Github project -> Settings -> Webhooks
@@ -141,9 +137,10 @@ These environment variables can be specified:
   * CCPI_POST_BUILD - if defined, then "conda build $CCPI_POST_BUILD" is performed after conda build, binaries will be uploaded to anaconda channel together with main build
   * CCPI_BUILD_ARGS - passed to conda build as `conda build Wrappers/Python/conda-recipe "$CCPI_BUILD_ARGS"`, e.g. CCPI_BUILD_ARGS="-c ccpi -c conda-forge";
   * CIL_VERSION - version of this build, it will be used to label it within multiple places during build. If CIL_VERSION is not expliticly defined, then version is determined from `git describe --tags`
-    + Note that version in CIL_VERSION or determined from `git tag` contains information about last tag and number of commits after it. Thus e.g. last tag is `0.10.4` and current commit is 3 after this tag, then version is `0.10.4_3`
-    + If the version is release (no number after '_'), anaconda upload is production
-    + If the version is not release (number of commits after '_') then anaconda upload is labeled as 'dev'
-    + some commit can be explicitly tagged including '_' char and something after, then it is considered as 'dev' version
+    - Note that version in CIL_VERSION or determined from `git tag` contains information about last tag and number of commits after it. Thus e.g. last tag is `0.10.4` and current commit is 3 after this tag, then version is `0.10.4_3`
+    - If the version is release (no number after '_'), anaconda upload is production
+    - If the version is not release (number of commits after '_') then anaconda upload is labeled as 'dev'
+    - some commit can be explicitly tagged including '_' char and something after, then it is considered as 'dev' version
   * CCPI_CONDA_TOKEN - token to upload binary builds to anaconda 
-    + it detects the branch under which the CCPi is build, master is uploaded to anaconda channel, non-master branch isn't
+    - it detects the branch under which the CCPi is build, master is uploaded to anaconda channel, non-master branch isn't
+    

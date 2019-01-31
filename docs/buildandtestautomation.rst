@@ -49,11 +49,14 @@ To configure build action on `push` event on `master` branch received from Githu
     - Repositories, Repository URL: ``https://github.com/vais-ral/CCPi-[module_name].git``
 .. note:: Note that repository url ends with `.git` suffix. Otherwise notification from github are ignored.
 
+
     - Branches to build, branch specifier: ``*/master``
 .. note:: Note that only master branch will be built.
 
+
     - Additional Behaviours, Check out to specific local branch 
 .. note:: *Check out to specific local branch* settings ensures that branch is identified e.g. as refs/heads/master. This is used to determine whether and how to upload binaries. master branch are uploaded, non-master branch (pull requests) are built only.
+
 
   * Build triggers, [x] Github hook trigger for GITScm polling
   * Execute shell::
@@ -70,6 +73,7 @@ To configure build action on `push` event on `master` branch received from Githu
     bash <(curl -L https://raw.githubusercontent.com/vais-ral/CCPi-VirtualMachine/master/scripts/jenkins-build.sh)
 
 .. note:: bash <(curl ...) calls universal script, see Section bellow.
+
 
 In Github project -> Settings -> Webhooks
   * Add new Webhook

@@ -144,9 +144,11 @@ These environment variables can be specified:
   * `CCPI_POST_BUILD` - if defined, then "conda build $CCPI_POST_BUILD" is performed after conda build, binaries will be uploaded to anaconda channel together with main build
   * `CCPI_BUILD_ARGS` - passed to conda build as `conda build Wrappers/Python/conda-recipe "$CCPI_BUILD_ARGS"`, e.g. CCPI_BUILD_ARGS="-c ccpi -c conda-forge";
   * `CIL_VERSION` - version of this build, it will be used to label it within multiple places during build. If CIL_VERSION is not expliticly defined, then version is determined from `git describe --tags`
+
     - Note that version in CIL_VERSION or determined from `git tag` contains information about last tag and number of commits after it. Thus e.g. last tag is `0.10.4` and current commit is 3 after this tag, then version is `0.10.4_3`
     - If the version is release (no number after '_'), anaconda upload is production
     - If the version is not release (number of commits after '_') then anaconda upload is labeled as 'dev'
     - some commit can be explicitly tagged including '_' char and something after, then it is considered as 'dev' version
+    
   * `CCPI_CONDA_TOKEN` - token to upload binary builds to anaconda 
     - it detects the branch under which the CCPi is build, master is uploaded to anaconda channel, non-master branch isn't

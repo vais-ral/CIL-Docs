@@ -43,15 +43,20 @@ To configure build action on `push` event on `master` branch received from Githu
   2. Enter these values: 
   
   * [x] Github project -> Project URL: ``https://github.com/vais-ral/CCPi-[module_name]/``
+
   * [x] Restrict where this project can be run -> Label Expression ``sl7``  (choose this to scientific linux, ubuntu or any linux based machine)
+
   * Source code management -> [x] Git -> 
 
     - Repositories, Repository URL: ``https://github.com/vais-ral/CCPi-[module_name].git``
+
     - Branches to build, branch specifier: ``*/master``
 
     - Additional Behaviours, Check out to specific local branch 
+
   * Build triggers, [x] Github hook trigger for GITScm polling
-  * Execute shell::
+
+  * Execute shell:
 
   .. code::
     module load conda
@@ -83,8 +88,11 @@ To configure build action on `pull-request` event on any branch received from Gi
   2. Enter these values: 
 
   * [x] Github project -> Project URL: ``https://github.com/vais-ral/CCPi-[module_name]/``
+
   * [x] Restrict where this project can be run -> Label Expression ``sl7``  (choose this to scientific linux, ubuntu or any linux based machine)
+
   * Source code management -> [x] Git -> 
+  
     - Repositories, Repository URL: ``https://github.com/vais-ral/CCPi-[module_name].git``
     - Advanced:
       + Name: ``origin``

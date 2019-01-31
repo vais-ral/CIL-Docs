@@ -58,6 +58,7 @@ To configure build action on `push` event on `master` branch received from Githu
 
   * Execute shell:
 
+.. highlight:: bash
     module load conda
     #commented version = version will be determined from git tag and number commits
     #export CIL_VERSION=0.10.3
@@ -104,7 +105,8 @@ To configure build action on `pull-request` event on any branch received from Gi
       + Check out to specific local branch 
   * Build triggers, [x] Poll SCM
   * Execute shell::
-  
+
+.. highlight:: bash  
     module load conda
     #commented version = version will be determined from git tag and number commits
     #export CIL_VERSION=0.10.3
@@ -133,7 +135,7 @@ It expects that conda recipe is defined in path `Wrapper/Python` relative to CCP
 
 Typical usage::
 
-.. code::
+.. highlight:: bash
   cd CCPi-[ccpi-module]
   export CCPI_BUILD_ARGS=[ccpi_build_args]
   bash -xe <(curl -L https://raw.githubusercontent.com/vais-ral/CCPi-VirtualMachine/master/scripts/jenkins-build.sh)

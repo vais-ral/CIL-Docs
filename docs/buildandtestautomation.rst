@@ -107,7 +107,7 @@ To configure build action on `pull-request` event on any branch received from Gi
     export CCPI_PRE_BUILD=[if defined "conda build $CCPI_PRE_BUILD" is called before]
     export CCPI_BUILD_ARGS=[optional args to be appended to main build process]
     #build and upload
-    bash <(curl -L https://raw.githubusercontent.com/vais-ral/CCPi-VirtualMachine/master/scripts/jenkins-build.sh)
+    bash -xe <(curl -L https://raw.githubusercontent.com/vais-ral/CCPi-VirtualMachine/master/scripts/jenkins-build.sh)
 
 In Github project -> Settings -> Webhooks
   * Add new Webhook
@@ -129,7 +129,7 @@ Typical usage::
 .. code::
   cd CCPi-[ccpi-module]
   export CCPI_BUILD_ARGS=[ccpi_build_args]
-  bash <(curl -L https://raw.githubusercontent.com/vais-ral/CCPi-VirtualMachine/master/scripts/jenkins-build.sh)
+  bash -xe <(curl -L https://raw.githubusercontent.com/vais-ral/CCPi-VirtualMachine/master/scripts/jenkins-build.sh)
 
 These environment variables can be specified:
   * `CCPI_PRE_BUILD` - if defined, then "conda build $PREBUILD" is performed before conda build, binaries will be uploaded to anaconda channel together with main build

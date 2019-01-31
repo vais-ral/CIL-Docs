@@ -58,7 +58,6 @@ To configure build action on `push` event on `master` branch received from Githu
 
   * Execute shell:
 
-  .. code::
     module load conda
     #commented version = version will be determined from git tag and number commits
     #export CIL_VERSION=0.10.3
@@ -106,7 +105,6 @@ To configure build action on `pull-request` event on any branch received from Gi
   * Build triggers, [x] Poll SCM
   * Execute shell::
   
-  .. code::
     module load conda
     #commented version = version will be determined from git tag and number commits
     #export CIL_VERSION=0.10.3
@@ -121,6 +119,7 @@ In Github project -> Settings -> Webhooks
   * Add new Webhook
   * Payload URL: ``[jenkins_url]/git/notifyCommit?url=http://github.com/vais-ral/CCPi-[module_name].git``
   * Which events would you like to trigger: 
+
     - [x] Let me select individual events
     - [x] Pull request
 
@@ -149,6 +148,6 @@ These environment variables can be specified:
     - If the version is release (no number after '_'), anaconda upload is production
     - If the version is not release (number of commits after '_') then anaconda upload is labeled as 'dev'
     - some commit can be explicitly tagged including '_' char and something after, then it is considered as 'dev' version
-    
+
   * `CCPI_CONDA_TOKEN` - token to upload binary builds to anaconda 
     - it detects the branch under which the CCPi is build, master is uploaded to anaconda channel, non-master branch isn't

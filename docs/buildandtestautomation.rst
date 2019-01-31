@@ -45,17 +45,20 @@ To configure build action on `push` event on `master` branch received from Githu
   * [x] Github project -> Project URL: ``https://github.com/vais-ral/CCPi-[module_name]/``
   * [x] Restrict where this project can be run -> Label Expression ``sl7``  (choose this to scientific linux, ubuntu or any linux based machine)
   * Source code management -> [x] Git -> 
+
     - Repositories, Repository URL: ``https://github.com/vais-ral/CCPi-[module_name].git``
 .. note:: Note that repository url ends with `.git` suffix. Otherwise notification from github are ignored.
+
     - Branches to build, branch specifier: ``*/master``
 .. note:: Note that only master branch will be built.
+
     - Additional Behaviours, Check out to specific local branch 
 .. note:: *Check out to specific local branch* settings ensures that branch is identified e.g. as refs/heads/master. This is used to determine whether and how to upload binaries. master branch are uploaded, non-master branch (pull requests) are built only.
+
   * Build triggers, [x] Github hook trigger for GITScm polling
   * Execute shell::
 
   .. code::
-
     module load conda
     #commented version = version will be determined from git tag and number commits
     #export CIL_VERSION=0.10.3
@@ -97,7 +100,6 @@ To configure build action on `pull-request` event on any branch received from Gi
   * Execute shell::
   
   .. code::
-  
     module load conda
     #commented version = version will be determined from git tag and number commits
     #export CIL_VERSION=0.10.3

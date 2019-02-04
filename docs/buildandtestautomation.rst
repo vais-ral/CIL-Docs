@@ -54,7 +54,7 @@ To configure build action on `push` event on `master` branch received from Githu
   * [x] Github project -> Project URL: ``https://github.com/vais-ral/CCPi-[module_name]/``
 
   * [x] Restrict where this project can be run -> Label Expression ``sl7``  (choose this to scientific linux, ubuntu or any linux based machine)
-  .. image:: ../../pics/ccpibuild1.png
+.. image:: ../../pics/ccpibuild1.png
 
   * Source code management -> [x] Git -> 
 
@@ -64,10 +64,10 @@ To configure build action on `push` event on `master` branch received from Githu
 
     - Additional Behaviours, Check out to specific local branch 
 
-    .. image:: ../../pics/ccpibuild2.png
+.. image:: ../../pics/ccpibuild2.png
 
   * Build triggers, [x] Github hook trigger for GITScm polling
-  .. image:: ../../pics/ccpibuild3.png
+.. image:: ../../pics/ccpibuild3.png
 
   * Execute shell:
 

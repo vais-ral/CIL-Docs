@@ -19,9 +19,18 @@ With following limitation:
 * the result of built and test process is available in on top of the github page
 
 * version is determined from last git tag and number of commits after this tag, e.g. `0.10.3_103` means 103 commits after last tagged version `0.10.3`.
-* if number of commits after tagged version is 0, then this built is assumed production
+* if number of commits after tagged version is 0, then this built is assumed production, this can be installed by
+
+.. code-block:: shell
+  
+   conda install -c ccpi ccpi-[module name]
+    
 * if number of commits after tagged version is greater than 0, then this built is labeled as `dev` 
 
+.. code-block:: shell
+
+    conda install -c ccpi/label/dev ccpi-[module-name]
+    
 Recommended setting in continuous integration
 ---------------------------------------------
 
@@ -58,22 +67,23 @@ To configure build action on `push` event on `master` branch received from Githu
 
   * Execute shell:
 
-.. highlight:: bash
-    module load conda
-    #commented version = version will be determined from git tag and number commits
-    #export CIL_VERSION=0.10.3
-    export CCPI_CONDA_TOKEN=[conda token to upload to ccpi channel]
-    # upload enabled- script will decide on branch
-    export CCPI_PRE_BUILD=[if defined "conda build $CCPI_PRE_BUILD" is called before]
-    export CCPI_BUILD_ARGS=[optional args to be appended to main build process]
-    #build and upload
-    bash <(curl -L https://raw.githubusercontent.com/vais-ral/CCPi-VirtualMachine/master/scripts/jenkins-build.sh)
+.. code-block:: shell
+   
+   module load conda
+   #commented version = version will be determined from git tag and number commits
+   # export CIL_VERSION=0.10.3
+   # uncomment following and specify
+   # export CCPI_CONDA_TOKEN=[conda token to upload to ccpi channel]
+   # export CCPI_PRE_BUILD=[if defined "conda build $CCPI_PRE_BUILD" is called before]
+   # export CCPI_BUILD_ARGS=[optional args to be appended to main build process]
+   #build and upload
+   bash <(curl -L https://raw.githubusercontent.com/vais-ral/CCPi-VirtualMachine/master/scripts/jenkins-build.sh)
 
 .. note:: Note that repository url ends with `.git` suffix. 
     Otherwise notification from github are ignored.
 .. note:: *Check out to specific local branch* 
     settings ensures that branch is identified e.g. as refs/heads/master. This is used to determine whether and how to upload binaries. master branch are uploaded, non-master branch (pull requests) are built only.
-.. note:: bash <(curl ...) calls universal script, see Section bellow.
+.. note:: `bash <(curl ...)` calls universal script, see Section bellow.
 
 In Github project -> Settings -> Webhooks
   * Add new Webhook
@@ -105,17 +115,17 @@ To configure build action on `pull-request` event on any branch received from Gi
       + Check out to specific local branch 
   * Build triggers, [x] Poll SCM
   * Execute shell::
-
-.. highlight:: bash  
-    module load conda
-    #commented version = version will be determined from git tag and number commits
-    #export CIL_VERSION=0.10.3
-    export CCPI_CONDA_TOKEN=[conda token to upload to ccpi channel]
-    # upload enabled- script will decide on branch
-    export CCPI_PRE_BUILD=[if defined "conda build $CCPI_PRE_BUILD" is called before]
-    export CCPI_BUILD_ARGS=[optional args to be appended to main build process]
-    #build and upload
-    bash -xe <(curl -L https://raw.githubusercontent.com/vais-ral/CCPi-VirtualMachine/master/scripts/jenkins-build.sh)
+.. code-block:: shell
+  
+   module load conda
+   #commented version = version will be determined from git tag and number commits
+   # export CIL_VERSION=0.10.3
+   # uncomment following and specify
+   # export CCPI_CONDA_TOKEN=[conda token to upload to ccpi channel]
+   # export CCPI_PRE_BUILD=[if defined "conda build $CCPI_PRE_BUILD" is called before]
+   # export CCPI_BUILD_ARGS=[optional args to be appended to main build process]
+   #build and upload
+   bash <(curl -L https://raw.githubusercontent.com/vais-ral/CCPi-VirtualMachine/master/scripts/jenkins-build.sh)
 
 In Github project -> Settings -> Webhooks
   * Add new Webhook
@@ -133,12 +143,18 @@ universal script to build CCPi module libraries based on conda recipe in relativ
 Variants are supported (combination of python version and dependent libraries).
 It expects that conda recipe is defined in path `Wrapper/Python` relative to CCPi-[module].
 
-Typical usage::
+Typical usage:
 
-.. highlight:: bash
-  cd CCPi-[ccpi-module]
-  export CCPI_BUILD_ARGS=[ccpi_build_args]
-  bash -xe <(curl -L https://raw.githubusercontent.com/vais-ral/CCPi-VirtualMachine/master/scripts/jenkins-build.sh)
+.. code-block:: shell
+  
+   #commented version = version will be determined from git tag and number commits
+   # export CIL_VERSION=0.10.3
+   # uncomment following and specify
+   # export CCPI_CONDA_TOKEN=[conda token to upload to ccpi channel]
+   # export CCPI_PRE_BUILD=[if defined "conda build $CCPI_PRE_BUILD" is called before]
+   # export CCPI_BUILD_ARGS=[optional args to be appended to main build process]
+   #build and upload
+   bash <(curl -L https://raw.githubusercontent.com/vais-ral/CCPi-VirtualMachine/master/scripts/jenkins-build.sh)
 
 These environment variables can be specified:
   * `CCPI_PRE_BUILD` - if defined, then "conda build $PREBUILD" is performed before conda build, binaries will be uploaded to anaconda channel together with main build

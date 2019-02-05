@@ -158,6 +158,8 @@ Github information badges
 (Optionally) In order to have feedback status of the build process on github or any other third party page, you may put 
 the following code, which shows the image of the build status and links to the build status page where more information can be obtained in order to investigate a build failure.
 
+.. note:: Replace in the following code all occurences of `[CCPi-module]` by a selected module, e.g. `CCPi-Reconstruction`.
+
 .. code:: markup
    
    | master version | last pull request |

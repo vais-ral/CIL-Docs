@@ -152,6 +152,17 @@ In Github project -> Settings -> Webhooks
 
     - [x] Let me select individual events
     - [x] Pull request
+    
+Github information badges    
+~~~~~~~~~~~~~~~~~~~~~~~~~
+(Optionally) In order to have feedback status of the build process on github or any other third party page, you may put 
+the following code, which shows the image of the build status and links to the build status page where more information can be obtained in order to investigate a build failure.
+
+.. code:: markup
+   
+   | master version | last pull request |
+   |----------------|---------------------|
+   | [![Build Status](https://anvil.softeng-support.ac.uk/jenkins/buildStatus/icon?job=CILsingle/[CCPi-module])](https://anvil.softeng-support.ac.uk/jenkins/job/CILsingle/job/[CCPi-module]/) | [![Build Status](https://anvil.softeng-support.ac.uk/jenkins/buildStatus/icon?job=CILsingle/[CCPi-module]-dev)](https://anvil.softeng-support.ac.uk/jenkins/job/CILsingle/job/[CCPi-module]-dev/) |
 
 Universal built script
 ~~~~~~~~~~~~~~~~~~~~~~

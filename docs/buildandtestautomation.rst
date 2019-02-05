@@ -48,46 +48,48 @@ Production built for CCPi-[module_name]
 Jenkins is pressumed to contain only "Git" and "Github" plugins. No other plugins are required.
 
 To configure build action on `push` event on `master` branch received from Github do following in Jenkins:
-  1. Create new project by: ``choose folder``, New Item, Enter Item Name: ``CCPi-[module-name]``, Freestyle project
-  2. Enter these values: 
+
+1. Create new project by: ``choose folder``, New Item, Enter Item Name: ``CCPi-[module-name]``, Freestyle project
+
+2. Enter these values: 
   
-  * [x] Github project -> Project URL: ``https://github.com/vais-ral/CCPi-[module_name]/``
+   a. [x] Github project -> Project URL: ``https://github.com/vais-ral/CCPi-[module_name]/``
 
-  * [x] Restrict where this project can be run -> Label Expression ``sl7``  (choose this to scientific linux, ubuntu or any linux based machine)
+   b. [x] Restrict where this project can be run -> Label Expression ``sl7``  (choose this to scientific linux, ubuntu or any linux based machine)
   
-  .. image:: ../pics/ccpibuild1.png
+   .. image:: ../pics/ccpibuild1.png
 
-  * Source code management -> [x] Git -> 
+   c. Source code management -> [x] Git -> 
 
-    - Repositories, Repository URL: ``https://github.com/vais-ral/CCPi-[module_name].git``
+      - Repositories, Repository URL: ``https://github.com/vais-ral/CCPi-[module_name].git``
 
-    - Branches to build, branch specifier: ``*/master``
+      - Branches to build, branch specifier: ``*/master``
 
-    - Additional Behaviours, Check out to specific local branch 
+      - Additional Behaviours, Check out to specific local branch 
 
-  .. image:: ../pics/ccpibuild2.png
+      .. image:: ../pics/ccpibuild2.png
 
-  * Build triggers, [x] Github hook trigger for GITScm polling
+   d. Build triggers, [x] Github hook trigger for GITScm polling
   
-  .. image:: ../pics/ccpibuild3.png
+     .. image:: ../pics/ccpibuild3.png
 
-  * Execute shell:
+   e. Execute shell:
 
-  .. code-block:: shell
+      .. code-block:: shell
    
-   module load conda
-   #commented version = version will be determined from git tag and number commits
-   # export CIL_VERSION=0.10.3
-   # uncomment following and specify
-   # export CCPI_CONDA_TOKEN=[conda token to upload to ccpi channel]
-   # export CCPI_PRE_BUILD=[if defined "conda build $CCPI_PRE_BUILD" is called before]
-   # export CCPI_BUILD_ARGS=[optional args to be appended to main build process]
-   #build and upload
-   bash <(curl -L https://raw.githubusercontent.com/vais-ral/CCPi-VirtualMachine/master/scripts/jenkins-build.sh)
+         module load conda
+         #commented version = version will be determined from git tag and number commits
+         # export CIL_VERSION=0.10.3
+         # uncomment following and specify
+         # export CCPI_CONDA_TOKEN=[conda token to upload to ccpi channel]
+         # export CCPI_PRE_BUILD=[if defined "conda build $CCPI_PRE_BUILD" is called before]
+         # export CCPI_BUILD_ARGS=[optional args to be appended to main build process]
+         #build and upload
+         bash <(curl -L https://raw.githubusercontent.com/vais-ral/CCPi-VirtualMachine/master/scripts/jenkins-build.sh)
    
-  .. image:: ../pics/ccpibuild4.png
+      .. image:: ../pics/ccpibuild4.png
   
-  * (Optionally) specify post build action like email notification etc.
+   f. (Optionally) specify post build action like email notification etc.
   
 .. note:: Note that repository url ends with `.git` suffix. 
     Otherwise notification from github are ignored.
@@ -108,39 +110,40 @@ Development built for pull request on CCPi-[module_name]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 To configure build action on `pull-request` event on any branch received from Github do following in Jenkins:
 
-  1. Create new project by: ``choose folder``, New Item, Enter Item Name: ``CCPi-[module-name]``, Freestyle project
-  2. Enter these values: 
+1. Create new project by: ``choose folder``, New Item, Enter Item Name: ``CCPi-[module-name]``, Freestyle project
 
-  * [x] Github project -> Project URL: ``https://github.com/vais-ral/CCPi-[module_name]/``
+2. Enter these values: 
 
-  * [x] Restrict where this project can be run -> Label Expression ``sl7``  (choose this to scientific linux, ubuntu or any linux based machine)
+   a. [x] Github project -> Project URL: ``https://github.com/vais-ral/CCPi-[module_name]/``
 
-  * Source code management -> [x] Git -> 
+   b. [x] Restrict where this project can be run -> Label Expression ``sl7``  (choose this to scientific linux, ubuntu or any linux based machine)
+
+   c. Source code management -> [x] Git -> 
   
-    - Repositories, Repository URL: ``https://github.com/vais-ral/CCPi-[module_name].git``
-    - Advanced:
-      + Name: ``origin``
-      + Refspec: ``+refs/pull/*:refs/remotes/origin/pr/*``      
-    - Branches to build, branch specifier: ``**``
-    - Additional Behaviours:
-      + Advanced clone behaviours: 
-        + Fetch tags [x] 
-        + Honor refspec on initial clone [x] 
-      + Check out to specific local branch 
-  * Build triggers, [x] Poll SCM
-  * Execute shell::
-  
-  .. code-block:: shell
-  
-   module load conda
-   #commented version = version will be determined from git tag and number commits
-   # export CIL_VERSION=0.10.3
-   # uncomment following and specify
-   # export CCPI_CONDA_TOKEN=[conda token to upload to ccpi channel]
-   # export CCPI_PRE_BUILD=[if defined "conda build $CCPI_PRE_BUILD" is called before]
-   # export CCPI_BUILD_ARGS=[optional args to be appended to main build process]
-   #build and upload
-   bash <(curl -L https://raw.githubusercontent.com/vais-ral/CCPi-VirtualMachine/master/scripts/jenkins-build.sh)
+      - Repositories, Repository URL: ``https://github.com/vais-ral/CCPi-[module_name].git``
+      - Advanced:
+         + Name: ``origin``
+         + Refspec: ``+refs/pull/*:refs/remotes/origin/pr/*``      
+      - Branches to build, branch specifier: ``**``
+      - Additional Behaviours:
+         + Advanced clone behaviours: 
+         + Fetch tags [x] 
+         + Honor refspec on initial clone [x] 
+         + Check out to specific local branch 
+   d. Build triggers, [x] Poll SCM
+   e. Execute shell:
+
+      .. code-block:: shell
+   
+         module load conda
+         #commented version = version will be determined from git tag and number commits
+         # export CIL_VERSION=0.10.3
+         # uncomment following and specify
+         # export CCPI_CONDA_TOKEN=[conda token to upload to ccpi channel]
+         # export CCPI_PRE_BUILD=[if defined "conda build $CCPI_PRE_BUILD" is called before]
+         # export CCPI_BUILD_ARGS=[optional args to be appended to main build process]
+         #build and upload
+         bash <(curl -L https://raw.githubusercontent.com/vais-ral/CCPi-VirtualMachine/master/scripts/jenkins-build.sh)
 
 In Github project -> Settings -> Webhooks
   * Add new Webhook

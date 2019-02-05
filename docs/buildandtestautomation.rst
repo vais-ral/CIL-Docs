@@ -54,7 +54,8 @@ To configure build action on `push` event on `master` branch received from Githu
   * [x] Github project -> Project URL: ``https://github.com/vais-ral/CCPi-[module_name]/``
 
   * [x] Restrict where this project can be run -> Label Expression ``sl7``  (choose this to scientific linux, ubuntu or any linux based machine)
-.. image:: ../pics/ccpibuild1.png
+  
+  .. image:: ../pics/ccpibuild1.png
 
   * Source code management -> [x] Git -> 
 
@@ -64,14 +65,15 @@ To configure build action on `push` event on `master` branch received from Githu
 
     - Additional Behaviours, Check out to specific local branch 
 
-.. image:: ../pics/ccpibuild2.png
+  .. image:: ../pics/ccpibuild2.png
 
   * Build triggers, [x] Github hook trigger for GITScm polling
-.. image:: ../pics/ccpibuild3.png
+  
+  .. image:: ../pics/ccpibuild3.png
 
   * Execute shell:
 
-.. code-block:: shell
+  .. code-block:: shell
    
    module load conda
    #commented version = version will be determined from git tag and number commits
@@ -82,14 +84,18 @@ To configure build action on `push` event on `master` branch received from Githu
    # export CCPI_BUILD_ARGS=[optional args to be appended to main build process]
    #build and upload
    bash <(curl -L https://raw.githubusercontent.com/vais-ral/CCPi-VirtualMachine/master/scripts/jenkins-build.sh)
-
+   
+  .. image:: ../pics/ccpibuild4.png
+  
+  * (Optionally) specify post build action like email notification etc.
+  
 .. note:: Note that repository url ends with `.git` suffix. 
     Otherwise notification from github are ignored.
 .. note:: *Check out to specific local branch* 
     settings ensures that branch is identified e.g. as refs/heads/master. This is used to determine whether and how to upload binaries. master branch are uploaded, non-master branch (pull requests) are built only.
 .. note:: `bash <(curl ...)` calls universal script, see Section bellow.
 
-.. image:: ../pics/ccpibuild4.png
+
 
 In Github project -> Settings -> Webhooks
   * Add new Webhook
@@ -123,7 +129,8 @@ To configure build action on `pull-request` event on any branch received from Gi
       + Check out to specific local branch 
   * Build triggers, [x] Poll SCM
   * Execute shell::
-.. code-block:: shell
+  
+  .. code-block:: shell
   
    module load conda
    #commented version = version will be determined from git tag and number commits

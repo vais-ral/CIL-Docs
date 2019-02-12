@@ -153,18 +153,18 @@ In Github project -> Settings -> Webhooks
     - [x] Let me select individual events
     - [x] Pull request
     
-Github information badges    
-~~~~~~~~~~~~~~~~~~~~~~~~~
-(Optionally) In order to have feedback status of the build process on github or any other third party page, you may put 
+Optional Github and Anaconda information badges    
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In order to have feedback status of the build process on github or any other third party page, you may put 
 the following code, which shows the image of the build status and links to the build status page where more information can be obtained in order to investigate a build failure.
 
-.. note:: Replace in the following code all occurences of `[CCPi-module]` by a selected module, e.g. `CCPi-Reconstruction`.
+.. note:: Replace `[CCPi-module]` by a selected module, e.g. `CCPi-Reconstruction`. Replace `[conda-module]` by module name in conda - it may differ, thus e.g `ccpi-reconstruction`.
 
 .. code:: markup
    
-   | master version | last pull request |
-   |----------------|---------------------|
-   | [![Build Status](https://anvil.softeng-support.ac.uk/jenkins/buildStatus/icon?job=CILsingle/[CCPi-module])](https://anvil.softeng-support.ac.uk/jenkins/job/CILsingle/job/[CCPi-module]/) | [![Build Status](https://anvil.softeng-support.ac.uk/jenkins/buildStatus/icon?job=CILsingle/[CCPi-module]-dev)](https://anvil.softeng-support.ac.uk/jenkins/job/CILsingle/job/[CCPi-module]-dev/) |
+   | master version | last pull request | Anaconda binaries status |
+   |----------------|-------------------|--------------------------|
+   | [![Build Status](https://anvil.softeng-support.ac.uk/jenkins/buildStatus/icon?job=CILsingle/[CCPi-module])](https://anvil.softeng-support.ac.uk/jenkins/job/CILsingle/job/[CCPi-module]/) | [![Build Status](https://anvil.softeng-support.ac.uk/jenkins/buildStatus/icon?job=CILsingle/[CCPi-module]-dev)](https://anvil.softeng-support.ac.uk/jenkins/job/CILsingle/job/[CCPi-module]-dev/) | ![conda version](https://anaconda.org/ccpi/[ccpi-module]/badges/version.svg) ![conda last release](https://anaconda.org/ccpi/[ccpi-module]/badges/latest_release_date.svg) [![conda platforms](https://anaconda.org/ccpi/[conda module]/badges/platforms.svg) ![conda dowloads](https://anaconda.org/ccpi/[conda-module]/badges/downloads.svg)](https://anaconda.org/ccpi/[conda-module])
 
 Universal built script
 ~~~~~~~~~~~~~~~~~~~~~~

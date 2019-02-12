@@ -153,19 +153,6 @@ In Github project -> Settings -> Webhooks
     - [x] Let me select individual events
     - [x] Pull request
     
-Optional Github and Anaconda information badges    
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In order to have feedback status of the build process on github or any other third party page, you may put 
-the following code, which shows the image of the build status and links to the build status page where more information can be obtained in order to investigate a build failure.
-
-.. note:: Replace `[CCPi-module]` by a selected module, e.g. `CCPi-Reconstruction`. Replace `[conda-module]` by module name in conda - it may differ, thus e.g `ccpi-reconstruction`.
-
-.. code:: markup
-   
-   | master version | last pull request | Anaconda binaries status |
-   |----------------|-------------------|--------------------------|
-   | [![Build Status](https://anvil.softeng-support.ac.uk/jenkins/buildStatus/icon?job=CILsingle/[CCPi-module])](https://anvil.softeng-support.ac.uk/jenkins/job/CILsingle/job/[CCPi-module]/) | [![Build Status](https://anvil.softeng-support.ac.uk/jenkins/buildStatus/icon?job=CILsingle/[CCPi-module]-dev)](https://anvil.softeng-support.ac.uk/jenkins/job/CILsingle/job/[CCPi-module]-dev/) | ![conda version](https://anaconda.org/ccpi/[ccpi-module]/badges/version.svg) ![conda last release](https://anaconda.org/ccpi/[ccpi-module]/badges/latest_release_date.svg) [![conda platforms](https://anaconda.org/ccpi/[conda module]/badges/platforms.svg) ![conda dowloads](https://anaconda.org/ccpi/[conda-module]/badges/downloads.svg)](https://anaconda.org/ccpi/[conda-module])
-
 Universal built script
 ~~~~~~~~~~~~~~~~~~~~~~
 The jenkins-build.sh at https://raw.githubusercontent.com/vais-ral/CCPi-VirtualMachine/master/scripts/jenkins-build.sh is
@@ -200,3 +187,17 @@ These environment variables can be specified:
 
   * `CCPI_CONDA_TOKEN` - token to upload binary builds to anaconda 
     - it detects the branch under which the CCPi is build, master is uploaded to anaconda channel, non-master branch isn't
+
+Optional Github and Anaconda information badges    
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In order to have feedback status of the build process on github or any other third party page, you may put 
+the following code, which shows the image of the build status and links to the build status page where more information can be obtained in order to investigate a build failure.
+
+.. code:: markup
+      
+   | master version | last pull request | Anaconda binaries status |
+   |----------------|-------------------|--------------------------|
+   | [![Build Status](https://anvil.softeng-support.ac.uk/jenkins/buildStatus/icon?job=CILsingle/[CCPi-module])](https://anvil.softeng-support.ac.uk/jenkins/job/CILsingle/job/[CCPi-module]/) | [![Build Status](https://anvil.softeng-support.ac.uk/jenkins/buildStatus/icon?job=CILsingle/[CCPi-module]-dev)](https://anvil.softeng-support.ac.uk/jenkins/job/CILsingle/job/[CCPi-module]-dev/) | ![conda version](https://anaconda.org/ccpi/[ccpi-module]/badges/version.svg) ![conda last release](https://anaconda.org/ccpi/[ccpi-module]/badges/latest_release_date.svg) [![conda platforms](https://anaconda.org/ccpi/[conda module]/badges/platforms.svg) ![conda dowloads](https://anaconda.org/ccpi/[conda-module]/badges/downloads.svg)](https://anaconda.org/ccpi/[conda-module])
+   
+.. note:: Replace `[CCPi-module]` by a selected module, e.g. `CCPi-Reconstruction`. Replace `[conda-module]` by module name in conda - it may differ, thus e.g `ccpi-reconstruction`.
+

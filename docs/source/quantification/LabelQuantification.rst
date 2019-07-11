@@ -37,7 +37,7 @@ API
 Example
 --------
 
-To run the example code you need to download the following data file: :download:`Foam Data <../../test/FoamData.tif>`
+To run the example code you need to download the following data file: :download:`Foam Data <../../../test/FoamData.tif>`
 
 To run the below code you need to install the following packages:
 
@@ -68,6 +68,6 @@ To run the below code you need to install the following packages:
     img.close()
 
 
-.. image:: ../../pics/FoamData.png   
+.. image:: ../../../pics/FoamData.png   
 
-.. image:: ../../pics/LabelQuantification.jpg   	
+.. image:: ../../../pics/LabelQuantification.jpg   	

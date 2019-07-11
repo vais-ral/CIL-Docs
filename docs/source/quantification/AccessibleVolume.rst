@@ -24,7 +24,7 @@ API
 Example
 --------
 
-To run the example code you need to download the following files :download:`Input Data <../../test/Data128.tif>` and :download:`Mask Data <../../test/DataMask128.tif>`
+To run the example code you need to download the following files :download:`Input Data <../../../test/Data128.tif>` and :download:`Mask Data <../../../test/DataMask128.tif>`
 
 To run the below code you need to install the following packages:
 
@@ -55,10 +55,10 @@ To run the below code you need to install the following packages:
 
 Input Volume
 
-.. image:: ../../pics/Data128.png   
+.. image:: ../../../pics/Data128.png   
 
 Mask Volume
 
-.. image:: ../../pics/DataMask128.png
+.. image:: ../../../pics/DataMask128.png
 
-.. image:: ../../pics/AccessibleVolume.jpg   
+.. image:: ../../../pics/AccessibleVolume.jpg   

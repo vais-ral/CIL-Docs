@@ -149,7 +149,7 @@ One should set
 
 One may want to compare the results of the reconstruction algorithms:
 
-.. image:: ../pics/Reconstruction_CGLS_Figure_1.png
+.. image:: ../../pics/Reconstruction_CGLS_Figure_1.png
 
 
 ::
@@ -189,7 +189,7 @@ One may want to compare the results of the reconstruction algorithms:
 The whole demo code
 =====================
 
-The complete demo can be downloaded at :download:`Reconstruction CGLS Demo <../test/reconstruction_cgls.py>`. To run the demo you need to download the sample `dataset <https://github.com/DiamondLightSource/Savu/blob/master/test_data/data/24737_fd.nxs>`_  and install the following packages
+The complete demo can be downloaded at :download:`Reconstruction CGLS Demo <../../test/reconstruction_cgls.py>`. To run the demo you need to download the sample `dataset <https://github.com/DiamondLightSource/Savu/blob/master/test_data/data/24737_fd.nxs>`_  and install the following packages
 
 * matplotlib
 * h5py

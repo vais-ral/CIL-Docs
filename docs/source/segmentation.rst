@@ -308,9 +308,9 @@ That is basically it! You can run the following script that will do the segmenta
     ###############################################################################
 
 
-.. image:: ../pics/Segmentation_Figure_2.png
-.. image:: ../pics/Segmentation_Figure_mask.png
-.. image:: ../pics/Segmentation_Figure_3.png
+.. image:: ../../pics/Segmentation_Figure_2.png
+.. image:: ../../pics/Segmentation_Figure_mask.png
+.. image:: ../../pics/Segmentation_Figure_3.png
 
 
 .. [Carr2003] Carr, H., Snoeyink, J., & Axen, U. (2003). Computing contour trees in all dimensions.

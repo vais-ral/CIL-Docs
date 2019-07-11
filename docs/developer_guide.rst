@@ -90,6 +90,12 @@ Some git commands
 **your branch** is between HEAD and =====, master is between ===== and master. Once removed that 
 ``git commit``
 
+Developing on Windows you may get problems with file permissions. Change from 0755 to 0644 with
+
+.. code-block::
+
+  git update-index --chmod=-x filename
+  git add filename
 
 CMake
 =====
